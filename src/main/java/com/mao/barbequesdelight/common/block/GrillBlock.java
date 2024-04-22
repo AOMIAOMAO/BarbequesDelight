@@ -40,20 +40,17 @@ public class GrillBlock extends BlockWithEntity {
         this.setDefaultState(blockState);
     }
 
+    protected static final VoxelShape SHAPE = VoxelShapes.union(
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 10.0D, 1.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 15.0D, 1.0D, 10.0D, 16.0D),
+            Block.createCuboidShape(15.0D, 0.0D, 15.0D, 16.0D, 10.0D, 16.0D),
+            Block.createCuboidShape(15.0D, 0.0D, 0.0D, 16.0D, 10.0D, 1.0D),
+            Block.createCuboidShape(0.0D, 10.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+    );
+
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        VoxelShape shape = VoxelShapes.empty();
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.9375, 0, 0, 1, 0.625, 0.0625));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.9375, 0, 0.9375, 1, 0.625, 1));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0, 0, 0.9375, 0.0625, 0.625, 1));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0, 0, 0, 0.0625, 0.625, 0.0625));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0, 0.625, 0.9375, 1, 1, 1));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0, 0.625, 0, 1, 1, 0.0625));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0, 0.625, 0.0625, 0.0625, 1, 0.9375));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.9375, 0.625, 0.0625, 1, 1, 0.9375));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0625, 0.75, 0.0625, 0.9375, 0.9375, 0.9375));
-
-        return shape;
+        return SHAPE;
     }
 
     @Override

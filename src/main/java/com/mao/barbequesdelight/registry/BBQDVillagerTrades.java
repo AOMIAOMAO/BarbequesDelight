@@ -10,7 +10,7 @@ public class BBQDVillagerTrades {
     public static void registerBBQDTrades() {
         int price = 3;
 
-        TradeOfferHelper.registerVillagerOffers(VillagerProfession.FARMER, 1, factories -> {
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.BUTCHER, 1, factories -> {
             factories.add((entity, random) -> new TradeOffer(
                     new ItemStack(Items.EMERALD, random.nextBetween(price - 1, price + 1)),
                     new ItemStack(BBQDItems.CHILLI_POWDER),

@@ -2,9 +2,11 @@
   "schemaVersion": 1,
   "id": "barbequesdelight",
   "version": "${version}",
-  "name": "Barbeques Delight",
-  "description": "",
-  "authors": [],
+  "name": "Barbeque's Delight",
+  "description": "This mod adds some tasty BBQ skewers as well as a new grill!",
+  "authors": [
+    "MaoMao(Aomiaomao)"
+  ],
   "contact": {
     "repo": ""
   },

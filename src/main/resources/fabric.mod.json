@@ -8,7 +8,9 @@
     "MaoMao(Aomiaomao)"
   ],
   "contact": {
-    "repo": ""
+    "repo": "https://modrinth.com/mod/barbeques-delight",
+    "homepage": "https://github.com/AOMIAOMAO/BarbequesDelight",
+    "issues": "https://github.com/AOMIAOMAO/BarbequesDelight/issues"
   },
   "license": "MIT",
   "icon": "assets/barbequesdelight/icon.png",

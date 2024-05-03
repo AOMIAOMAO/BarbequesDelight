@@ -4,6 +4,7 @@ package com.mao.barbequesdelight;
 import com.mao.barbequesdelight.registry.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -30,6 +31,7 @@ public class BarbequesDelight implements ModInitializer {
         BBQDRecipes.registerBBQDRecipes();
         BBQDEntityTypes.registerBBQDEntityTypes();
         BBQDVillagerTrades.registerBBQDTrades();
+        CompostingChanceRegistry.INSTANCE.add(BBQDItems.BURNT_FOOD, 0.2f);
 
         LOGGER.info("BarbequesDelight is loaded");
     }

@@ -24,9 +24,9 @@
   "item.barbequesdelight.baked_potato_skewer": "烤土豆串",
   "item.barbequesdelight.potato_skewer": "土豆串",
 
-  "item.barbequesdelight.chilli_powder.tooltip": "它会使你的烤串又辣又可口!",
-  "item.barbequesdelight.pepper_powder.tooltip": "它会使你的烤串更有美味!",
-  "item.barbequesdelight.cumin_powder.tooltip": "它会使你的烤串治愈你!",
+  "item.barbequesdelight.chilli_powder.tooltip": "造成伤害但增加饥饿值",
+  "item.barbequesdelight.pepper_powder.tooltip": "缩短食用时间",
+  "item.barbequesdelight.cumin_powder.tooltip": "回复玩家生命值",
 
   "block.barbequesdelight.grill": "烧烤架",
   "block.barbequesdelight.ingredients_basin": "配料盆"

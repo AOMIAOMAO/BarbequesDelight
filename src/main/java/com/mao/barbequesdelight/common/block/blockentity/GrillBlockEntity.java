@@ -103,11 +103,10 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
                     if (world != null){
                         Inventory inventory = new SimpleInventory(stack);
                         ItemStack result = world.getRecipeManager().getAllMatches(BarbecuingRecipe.Type.INSTANCE, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(stack);
-                        if (getFlipped(i)){
+                        if (getFlipped(i) && !(barbecuingTime[i] >= (barbecuingTotalTime[i] * 2))){
                             this.setStack(i, result);
                             this.inventoryChanged();
-                        }
-                        if (!getFlipped(i) || barbecuingTime[i] >= barbecuingTotalTime[i] * 2){
+                        }else {
                             this.setStack(i, BBQDItems.BURNT_FOOD.getDefaultStack());
                             this.setBurnt(i, true);
                             this.inventoryChanged();
@@ -141,6 +140,7 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
     public boolean isBarbecuing(){
         return world != null && this.isHeated() && (!this.getStack(0).isEmpty() || !this.getStack(1).isEmpty());
     }
+
 
     public boolean isBurnt(int i) {
         return burnt[i];

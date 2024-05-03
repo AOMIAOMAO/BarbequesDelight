@@ -24,9 +24,9 @@
   "item.barbequesdelight.baked_potato_skewer": "Baked Potato Skewer",
   "item.barbequesdelight.potato_skewer": "Potato Skewer",
 
-  "item.barbequesdelight.chilli_powder.tooltip": "It will make your skewers spicy and tasty!",
-  "item.barbequesdelight.pepper_powder.tooltip": "It will make your skewers more delicious!",
-  "item.barbequesdelight.cumin_powder.tooltip": "It will make your skewers will cure you!",
+  "item.barbequesdelight.chilli_powder.tooltip": "Deals damage and increases hunger",
+  "item.barbequesdelight.pepper_powder.tooltip": "Shortened consumption time",
+  "item.barbequesdelight.cumin_powder.tooltip": "Restores the player's health",
 
   "block.barbequesdelight.grill": "Grill",
   "block.barbequesdelight.ingredients_basin": "Ingredients Basin"

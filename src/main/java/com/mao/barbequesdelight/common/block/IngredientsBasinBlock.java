@@ -39,15 +39,18 @@ public class IngredientsBasinBlock extends BlockWithEntity {
 
                 if (itemInBasin.isEmpty() && !stack.isEmpty() && !basin.skewer(player, i)){
                     basin.setStack(i, stack.split(stack.getCount()));
+                    basin.inventoryChanged();
                     world.playSound(null, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    return ActionResult.SUCCESS;
+                    return ActionResult.success(world.isClient());
                 }else if (basin.skewer(player, i)){
                     world.playSound(null, pos, SoundEvents.ITEM_BUNDLE_INSERT, SoundCategory.PLAYERS, 1.0f, 1.0f);
-                    return ActionResult.SUCCESS;
+                    basin.inventoryChanged();
+                    return ActionResult.success(world.isClient());
                 }else {
                     world.playSound(null, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     player.getInventory().offerOrDrop(itemInBasin.split(itemInBasin.getCount()));
-                    return ActionResult.SUCCESS;
+                    basin.inventoryChanged();
+                    return ActionResult.success(world.isClient());
                 }
             }
             return ActionResult.CONSUME;
@@ -84,7 +87,6 @@ public class IngredientsBasinBlock extends BlockWithEntity {
         shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0625, 0.0625, 0.875, 0.9375, 0.25, 0.9375));
         shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0625, 0.0625, 0.0625, 0.9375, 0.25, 0.125));
         shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0625, 0.0625, 0.125, 0.125, 0.25, 0.875));
-
         return shape;
     }
 

@@ -1,9 +1,10 @@
 package com.mao.barbequesdelight.common.block.blockentity;
 
+import blue.endless.jankson.annotation.Nullable;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
@@ -13,39 +14,15 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public interface BlockEntityInv extends Inventory {
-    /**
-     * Retrieves the item list of this inventory.
-     * Must return the same instance every time it's called.
-     */
+public interface BlockEntityInv extends SidedInventory {
+
     DefaultedList<ItemStack> getItems();
 
-    /**
-     * Creates an inventory from the item list.
-     */
-    static BlockEntityInv of(DefaultedList<ItemStack> items) {
-        return () -> items;
-    }
-
-    /**
-     * Creates a new inventory with the specified size.
-     */
-    static BlockEntityInv ofSize(int size) {
-        return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
-    }
-
-    /**
-     * Returns the inventory size.
-     */
     @Override
     default int size() {
         return getItems().size();
     }
 
-    /**
-     * Checks if the inventory is empty.
-     * @return true if this inventory has only empty stacks, false otherwise.
-     */
     @Override
     default boolean isEmpty() {
         for (int i = 0; i < size(); i++) {
@@ -57,20 +34,11 @@ public interface BlockEntityInv extends Inventory {
         return true;
     }
 
-    /**
-     * Retrieves the item in the slot.
-     */
     @Override
     default ItemStack getStack(int slot) {
         return getItems().get(slot);
     }
 
-    /**
-     * Removes items from an inventory slot.
-     * @param slot  The slot to remove from.
-     * @param count How many items to remove. If there are fewer items in the slot than what are requested,
-     *              takes all items in that slot.
-     */
     @Override
     default ItemStack removeStack(int slot, int count) {
         ItemStack result = Inventories.splitStack(getItems(), slot, count);
@@ -80,53 +48,43 @@ public interface BlockEntityInv extends Inventory {
         return result;
     }
 
-    /**
-     * Removes all items from an inventory slot.
-     * @param slot The slot to remove from.
-     */
+    @Override
+    default void setStack(int slot, ItemStack stack) {
+        ItemStack itemStack = stack.copy();
+        stack.setCount(1);
+        getItems().set(slot, itemStack);
+        markDirty();
+    }
+
     @Override
     default ItemStack removeStack(int slot) {
         return Inventories.removeStack(getItems(), slot);
     }
 
-    /**
-     * Replaces the current stack in an inventory slot with the provided stack.
-     * @param slot  The inventory slot of which to replace the itemstack.
-     * @param stack The replacing itemstack. If the stack is too big for
-     *              this inventory ({@link Inventory#getMaxCountPerStack()}),
-     *              it gets resized to this inventory's maximum amount.
-     */
     @Override
-    default void setStack(int slot, ItemStack stack) {
-        getItems().set(slot, stack);
-        if (stack.getCount() > stack.getMaxCount()) {
-            stack.setCount(stack.getMaxCount());
+    default void clear() {
+        for (int i = 0; i < size(); i++) {
+            removeStack(i);
         }
     }
 
-    /**
-     * Clears the inventory.
-     */
-    @Override
-    default void clear() {
-        getItems().clear();
-    }
-
-    /**
-     * Marks the state as dirty.
-     * Must be called after changes in the inventory, so that the game can properly save
-     * the inventory contents and notify neighboring blocks of inventory changes.
-     */
-    @Override
-    default void markDirty() {
-        // Override if you want behavior.
-    }
-
-    /**
-     * @return true if the player can use the inventory, false otherwise.
-     */
     @Override
     default boolean canPlayerUse(PlayerEntity player) {
+        return true;
+    }
+
+    @Override
+    default int[] getAvailableSlots(Direction side) {
+        return new int[0];
+    }
+
+    @Override
+    default boolean canExtract(int slot, ItemStack stack, Direction dir) {
+        return true;
+    }
+
+    @Override
+    default boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         return true;
     }
 

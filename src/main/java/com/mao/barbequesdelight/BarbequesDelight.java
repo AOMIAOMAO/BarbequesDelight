@@ -5,12 +5,14 @@ import com.mao.barbequesdelight.registry.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 public class BarbequesDelight implements ModInitializer {
 
+    public static final TagKey<Item> CAN_BE_SEASONED = TagKey.of(RegistryKeys.ITEM, asID("can_be_seasoned"));
     public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, asID("main"));
     public static final String MODID = "barbequesdelight";
     public static final Logger LOGGER = LoggerFactory.getLogger(BarbequesDelight.class);

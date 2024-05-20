@@ -2,6 +2,7 @@ package com.mao.barbequesdelight.common.block.blockentity;
 
 import com.mao.barbequesdelight.common.recipe.SkeweringRecipe;
 import com.mao.barbequesdelight.registry.BBQDEntityTypes;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,6 +34,7 @@ public class IngredientsBasinBlockEntity extends BlockEntity implements BlockEnt
         ItemStack stack = user.getMainHandStack();
         ItemStack basin = getStack(slot);
         ItemStack garnishes = user.getOffHandStack();
+
         Optional<SkeweringRecipe> optional = Objects.requireNonNull(getWorld()).getRecipeManager().getFirstMatch(SkeweringRecipe.Type.INSTANCE, new SimpleInventory(basin), getWorld());
         if (optional.isEmpty()) {
             return false;
@@ -67,29 +69,40 @@ public class IngredientsBasinBlockEntity extends BlockEntity implements BlockEnt
     }
 
     @Override
-    public @Nullable Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
-    }
-
-    @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return createNbt();
-    }
-
-    @Override
     public int getMaxCountPerStack() {
         return 64;
     }
 
+    public void inventoryChanged() {
+        this.markDirty();
+        if (world != null) {
+            world.updateListeners(getPos(), getCachedState(), getCachedState(), Block.NOTIFY_ALL);
+        }
+    }
+
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        Inventories.writeNbt(nbt, this.items);
         super.writeNbt(nbt);
+        Inventories.writeNbt(nbt, this.items);
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
-        Inventories.readNbt(nbt, this.items);
         super.readNbt(nbt);
+        this.items.clear();
+        Inventories.readNbt(nbt, this.items);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        NbtCompound nbtCompound = new NbtCompound();
+        Inventories.writeNbt(nbtCompound, this.items, true);
+        return nbtCompound;
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 }

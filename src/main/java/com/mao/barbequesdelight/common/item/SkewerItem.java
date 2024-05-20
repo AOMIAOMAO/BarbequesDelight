@@ -31,7 +31,7 @@ public class SkewerItem extends ConsumableItem {
         if (nbt != null && !nbt.getString("seasoning").isEmpty()){
             switch (nbt.getString("seasoning")){
                 case "chilli_powder" -> {
-                  return text.formatted(Formatting.RED);
+                    return text.formatted(Formatting.RED);
                 }
                 case "pepper_powder" -> {
                     return text.copy().formatted(Formatting.GRAY);

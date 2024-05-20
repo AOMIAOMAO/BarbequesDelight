@@ -38,6 +38,6 @@ public class SeasoningItem extends Item {
         NbtCompound nbt = new NbtCompound();
         nbt.putString("seasoning", getSeasoning());
         skewer.setNbt(nbt);
-        player.playSound(SoundEvents.BLOCK_SAND_BREAK, 1.0f, 1.0f);
+        player.playSound(SoundEvents.BLOCK_SAND_BREAK, 0.7f, 1.0f);
     }
 }

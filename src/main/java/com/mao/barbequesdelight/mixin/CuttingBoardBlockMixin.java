@@ -1,5 +1,6 @@
 package com.mao.barbequesdelight.mixin;
 
+import com.mao.barbequesdelight.BarbequesDelight;
 import com.mao.barbequesdelight.common.item.SeasoningItem;
 import com.mao.barbequesdelight.common.item.SkewerItem;
 import net.minecraft.block.BlockState;

@@ -33,7 +33,7 @@ import java.util.Optional;
 public class GrillBlock extends BlockWithEntity {
 
     public GrillBlock() {
-        super(AbstractBlock.Settings.copy(ModBlocks.SKILLET.get()));
+        super(Settings.copy(ModBlocks.SKILLET.get()));
         BlockState blockState = this.stateManager.getDefaultState().with(HorizontalFacingBlock.FACING, Direction.NORTH);
         this.setDefaultState(blockState);
     }
@@ -86,37 +86,6 @@ public class GrillBlock extends BlockWithEntity {
         return true;
     }
 
-    //BlockEntity
-
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.getBlockEntity(pos) instanceof GrillBlockEntity grill){
-            int i = grill.getSlotForHitting(hit, world);
-            ItemStack stack = player.getStackInHand(hand);
-
-            if (i != grill.size()){
-                ItemStack grillItems = grill.getStack(i);
-                Optional<BarbecuingRecipe> optional = grill.findMatchingRecipe(stack);
-
-                if (grillItems.isEmpty() && !stack.isEmpty() && optional.isPresent() && !player.isSneaking()){
-                    grill.setStack(i, stack.split(1));
-                    grill.setBarbecuingTime(i, optional.get().getBarbecuingTime());
-                    world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 0.7F, 1.0F);
-                    return ActionResult.SUCCESS;
-                }else if (!grillItems.isEmpty() && stack.isEmpty() && !player.isSneaking()){
-                    grill.setStack(i, ItemStack.EMPTY);
-                    player.getInventory().offerOrDrop(grillItems.split(1));
-                    return ActionResult.SUCCESS;
-                }
-
-                if (player.isSneaking() && grill.flip(i)){
-                    return ActionResult.SUCCESS;
-                }
-            }
-        }
-        return ActionResult.CONSUME;
-    }
-
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(HorizontalFacingBlock.FACING);
@@ -137,6 +106,49 @@ public class GrillBlock extends BlockWithEntity {
         return state.rotate(mirror.getRotation(state.get(HorizontalFacingBlock.FACING)));
     }
 
+    //BlockEntity
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (world.getBlockEntity(pos) instanceof GrillBlockEntity grill){
+            int i = grill.getSlotForHitting(hit, world);
+            ItemStack stack = player.getStackInHand(hand);
+
+            if (i != grill.size()){
+                ItemStack grillItems = grill.getStack(i);
+                Optional<BarbecuingRecipe> optional = grill.findMatchingRecipe(stack);
+
+                if (grillItems.isEmpty() && !stack.isEmpty() && optional.isPresent() && !player.isSneaking()){
+                    grill.setStack(i, stack.split(1));
+                    grill.setBarbecuing(i, optional.get().getBarbecuingTime());
+                    world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 0.7F, 1.0F);
+                    grill.inventoryChanged();
+                    return ActionResult.success(world.isClient());
+                }else if (!grillItems.isEmpty() && stack.isEmpty() && !player.isSneaking()){
+                    player.getInventory().offerOrDrop(grillItems.split(1));
+                    grill.inventoryChanged();
+                    return ActionResult.success(world.isClient());
+                }
+
+                if (player.isSneaking() && grill.flip(i)) {
+                    world.playSound(null, (float)pos.getX() + 0.5F, (float)pos.getY() + 0.5F, (float)pos.getZ() + 0.5F, ModSounds.BLOCK_SKILLET_ADD_FOOD.get(), SoundCategory.BLOCKS, 0.8F, 1.0F);
+                    return ActionResult.SUCCESS;
+                }
+            }
+        }
+        return ActionResult.CONSUME;
+    }
+
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> blockEntity) {
+        return GrillBlock.checkType(world, blockEntity, BBQDEntityTypes.GRILL_BLOCK_ENTITY);
+    }
+
+    @Nullable
+    protected static <T extends BlockEntity> BlockEntityTicker<T> checkType(World world, BlockEntityType<T> givenType, BlockEntityType<? extends GrillBlockEntity> expectedType) {
+        return world.isClient ? GrillBlock.checkType(givenType, expectedType, GrillBlockEntity::animationTick) : GrillBlock.checkType(givenType, expectedType, GrillBlockEntity::tick);
+    }
+
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -146,10 +158,5 @@ public class GrillBlock extends BlockWithEntity {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, BBQDEntityTypes.GRILL_BLOCK_ENTITY, GrillBlockEntity::tick);
     }
 }

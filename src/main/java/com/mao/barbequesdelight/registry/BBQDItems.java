@@ -19,9 +19,9 @@ public class BBQDItems {
     public static final Item CUMIN_POWDER = register("cumin_powder", new SeasoningItem("cumin_powder"));
     public static final Item PEPPER_POWDER = register("pepper_powder", new SeasoningItem("pepper_powder"));
     public static final Item CHILLI_POWDER = register("chilli_powder", new SeasoningItem("chilli_powder"));
-    public static final Item BURNT_FOOD = register("burnt_food", new ConsumableItem(new Item.Settings().food(new FoodComponent.Builder().alwaysEdible().statusEffect(new StatusEffectInstance(StatusEffects.POISON, 200, 1), 1.0f).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 1), 1.0f).hunger(4).build()), true));
     public static final Item KEBAB_WRAP = register("kebab_wrap", new ConsumableItem(new Item.Settings().food(BBQDFoods.SKEWER_WRAP), true));
     public static final Item KEBAB_SANDWICH = register("kebab_sandwich", new Item(new Item.Settings().food(BBQDFoods.SKEWER_SANDWICH)));
+    public static final Item BURNT_FOOD = register("burnt_food", new ConsumableItem(new Item.Settings().food(new FoodComponent.Builder().alwaysEdible().statusEffect(new StatusEffectInstance(StatusEffects.POISON, 200, 1), 1.0f).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 1), 1.0f).hunger(4).build()), true));
     public static final Item COD_SKEWER = register("cod_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
     public static final Item COOKED_COD_SKEWER = register("cooked_cod_skewer", new SkewerItem(BBQDFoods.COOKED_COD_SKEWER, false));
     public static final Item SALMON_SKEWER = register("salmon_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));

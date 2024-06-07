@@ -31,11 +31,11 @@ import java.util.Optional;
 
 public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, HeatableBlockEntity {
 
-    private final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    private final int[] barbecuingTimes;
-    private final int[] barbecuingTimesTotal;
-    private final boolean[] flipped;
-    private final boolean[] burnt;
+    protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    public final int[] barbecuingTimes;
+    protected final int[] barbecuingTimesTotal;
+    public final boolean[] flipped;
+    public final boolean[] burnt;
 
     public GrillBlockEntity(BlockPos pos, BlockState state) {
         super(BBQDEntityTypes.GRILL_BLOCK_ENTITY, pos, state);

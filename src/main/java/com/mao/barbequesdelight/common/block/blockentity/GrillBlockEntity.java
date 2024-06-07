@@ -50,6 +50,8 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         this.barbecuingTimesTotal[i] = time;
         this.flipped[i] = false;
         this.setBurnt(i, false);
+        this.writeFlipped(new NbtCompound());
+        this.writeBurnt(new NbtCompound());
     }
 
     protected void barbecuing(){
@@ -67,6 +69,7 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
                         }else {
                             this.setStack(i, BBQDItems.BURNT_FOOD.getDefaultStack());
                             setBurnt(i, true);
+                            this.writeBurnt(new NbtCompound());
                         }
 
                         flag = true;
@@ -74,6 +77,7 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
                 } else if (barbecuingTimes[i] >=( barbecuingTimesTotal[i] * 2) && !getBurnt(i)) {
                     this.setStack(i, BBQDItems.BURNT_FOOD.getDefaultStack());
                     setBurnt(i, true);
+                    this.writeBurnt(new NbtCompound());
                     flag = true;
                 }
             }
@@ -100,7 +104,9 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         if (canFlip(i)){
             setFlipped(i, true);
             this.barbecuingTimes[i] = 0;
+            this.inventoryChanged();
             sendUpdatePacket(this);
+            this.writeFlipped(new NbtCompound());
             return true;
         }
         return false;
@@ -179,7 +185,8 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         if (world == null) return;
 
         for (int i = 0; i < items.size(); ++i) {
-            if (!items.get(i).isEmpty() && world.random.nextFloat() < 0.2F) {
+            barbecuingTimes[i]++;
+            if (!items.get(i).isEmpty()) {
                 Vec2f grillItemOffset = getGrillItemOffset(i);
                 Direction direction = getCachedState().get(HorizontalFacingBlock.FACING);
                 int directionIndex = direction.getHorizontal();
@@ -188,8 +195,10 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
                 double x = ((double) pos.getX() + 0.5D) - (direction.getOffsetX() * offset.x) + (direction.rotateYClockwise().getOffsetX() * offset.x);
                 double y = (double) pos.getY() + 1.0D;
                 double z = ((double) pos.getZ() + 0.5D) - (direction.getOffsetZ() * offset.y) + (direction.rotateYClockwise().getOffsetZ() * offset.y);
-                for (int k = 0; k < 3; ++k) {
-                    world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 5.0E-4D, 0.0D);
+                for (int k = 0; k < (canFlip(i) ? 4 : 1); ++k) {
+                   if (world.random.nextFloat() < 0.2f){
+                        world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 5.0E-4D, 0.0D);
+                    }
                 }
             }
         }

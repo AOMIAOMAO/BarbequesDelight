@@ -13,7 +13,7 @@ public class BarbequesDelightClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(BBQDBlocks.GRILL, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BBQDBlocks.GRILL, RenderLayer.getCutout());
 
         BlockEntityRendererFactories.register(BBQDEntityTypes.GRILL_BLOCK_ENTITY, GrillBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(BBQDEntityTypes.INGREDIENTS_BASIN_BLOCK_ENTITY, IngredientsBasinBlockEntityRenderer::new);

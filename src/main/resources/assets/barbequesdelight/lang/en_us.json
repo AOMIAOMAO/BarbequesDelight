@@ -1,5 +1,5 @@
 {
-  "itemGroup.barbequesdelight.main": "Barbeques Delight",
+  "itemGroup.barbequesdelight.main": "Barbeque's Delight",
 
   "item.barbequesdelight.chilli_powder": "Chilli Powder",
   "item.barbequesdelight.cumin_powder": "Cumin Powder",
@@ -19,10 +19,14 @@
   "item.barbequesdelight.cooked_lamb_skewer": "Cooked Lamb Skewer",
   "item.barbequesdelight.rabbit_skewer": "Raw Rabbit Skewer",
   "item.barbequesdelight.cooked_rabbit_skewer": "Cooked Rabbit Skewer",
+  "item.barbequesdelight.pork_sausage_skewer": "Raw Pork Sausage Skewer",
   "item.barbequesdelight.grilled_pork_sausage_skewer": "Grilled Pork Sausage Skewer",
-  "item.barbequesdelight.pork_sausage_skewer": "Pork Sausage Skewer",
+  "item.barbequesdelight.potato_skewer": "Raw Potato Skewer",
   "item.barbequesdelight.baked_potato_skewer": "Baked Potato Skewer",
-  "item.barbequesdelight.potato_skewer": "Potato Skewer",
+  "item.barbequesdelight.beef_skewer": "Raw Beef Skewer",
+  "item.barbequesdelight.cooked_beef_skewer": "Cooked Beef Skewer",
+  "item.barbequesdelight.mushroom_skewer": "Raw Mushroom Skewer",
+  "item.barbequesdelight.cooked_mushroom_skewer": "Cooked Mushroom Skewer",
 
   "item.barbequesdelight.chilli_powder.tooltip": "Deals damage and increases hunger",
   "item.barbequesdelight.pepper_powder.tooltip": "Shortened consumption time",

@@ -11,6 +11,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class BBQDRecipes {
+
     private static void recipe(RecipeSerializer<?> serializer, RecipeType<?> type, String id) {
         Registry.register(Registries.RECIPE_TYPE, BarbequesDelight.asID(id), type);
         Registry.register(Registries.RECIPE_SERIALIZER, BarbequesDelight.asID(id), serializer);

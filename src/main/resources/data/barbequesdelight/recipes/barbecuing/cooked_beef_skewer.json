@@ -1,0 +1,8 @@
+{
+  "type": "barbequesdelight:barbecuing",
+  "ingredient": {
+    "item": "barbequesdelight:beef_skewer"
+  },
+  "result": "barbequesdelight:cooked_beef_skewer",
+  "barbecuingtime": 320
+}

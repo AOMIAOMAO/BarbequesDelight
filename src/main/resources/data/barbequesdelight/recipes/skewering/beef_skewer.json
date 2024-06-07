@@ -1,0 +1,12 @@
+{
+  "type": "barbequesdelight:skewering",
+  "ingredient": {
+    "item": "minecraft:beef"
+  },
+  "sidedishes": {
+    "item":"farmersdelight:cabbage_leaf",
+    "count": 2
+  },
+  "result": "barbequesdelight:beef_skewer",
+  "count": 1
+}

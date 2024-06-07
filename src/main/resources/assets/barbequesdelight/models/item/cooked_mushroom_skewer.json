@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "barbequesdelight:item/baked_potato_skewer"
+    "layer0": "barbequesdelight:item/cooked_mushroom_skewer"
   }
 }

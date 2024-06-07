@@ -1,0 +1,8 @@
+{
+  "type": "barbequesdelight:barbecuing",
+  "ingredient": {
+    "item": "barbequesdelight:mushroom_skewer"
+  },
+  "result": "barbequesdelight:cooked_mushroom_skewer",
+  "barbecuingtime": 280
+}

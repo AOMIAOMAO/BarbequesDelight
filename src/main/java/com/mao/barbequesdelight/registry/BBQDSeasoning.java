@@ -31,7 +31,7 @@ public enum BBQDSeasoning {
         return (this == PEPPER_SEASONING) ? (time / 2) : time;
     }
 
-    public void onFinish(PlayerEntity player) {
+    public void other(PlayerEntity player) {
         if (this == CHILLI_SEASONING) {
             player.damage(player.getDamageSources().inFire(), 1);
             player.getHungerManager().add(2, 0.1f);

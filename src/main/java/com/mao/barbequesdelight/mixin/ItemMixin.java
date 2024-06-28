@@ -25,7 +25,7 @@ public abstract class ItemMixin {
     private void effect(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir){
         BBQDSeasoning seasoning = BBQDSeasoning.matching(stack);
         if (seasoning != null && user instanceof PlayerEntity player){
-            seasoning.onFinish(player);
+            seasoning.other(player);
         }
     }
 

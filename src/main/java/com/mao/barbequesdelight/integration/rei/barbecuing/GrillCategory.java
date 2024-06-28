@@ -30,7 +30,7 @@ public class GrillCategory implements DisplayCategory<GrillDisplay> {
 
     @Override
     public Text getTitle() {
-        return Text.translatable(BBQDBlocks.GRILL.getTranslationKey());
+        return Text.translatable("barbequesdelight.rei.barbecuing");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class GrillCategory implements DisplayCategory<GrillDisplay> {
         Arrow arrow = Widgets.createArrow(new Point(bgBounds.x + 43, bgBounds.y + 10)).animationDurationTicks(display.getBarbecuingTime());
         widgets.add(arrow);
         widgets.add(Widgets.createSlot(new Point(bgBounds.x + 81, bgBounds.y + 11)).entries(display.getOutputEntries().get(0)).markOutput().disableBackground());
-        widgets.add(Widgets.createLabel(new Point(arrow.getBounds().x + arrow.getBounds().width / 2, arrow.getBounds().y - 8), Text.literal(display.getBarbecuingTime() + " t")).noShadow().centered().tooltip(Text.literal("Ticks")).color(Formatting.DARK_GRAY.getColorValue(), Formatting.GRAY.getColorValue()));
+        widgets.add(Widgets.createLabel(new Point(arrow.getBounds().x + arrow.getBounds().width / 2, arrow.getBounds().y - 8), Text.literal((display.getBarbecuingTime() / 20) + " s")).noShadow().centered().tooltip(Text.literal("Seconds")).color(Formatting.DARK_GRAY.getColorValue(), Formatting.GRAY.getColorValue()));
 
         return widgets;
     }

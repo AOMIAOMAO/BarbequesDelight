@@ -2,10 +2,7 @@ package com.mao.barbequesdelight.registry;
 
 import com.mao.barbequesdelight.BarbequesDelight;
 import com.mao.barbequesdelight.common.item.SeasoningItem;
-import com.mao.barbequesdelight.common.item.SkewerItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
@@ -16,29 +13,31 @@ public class BBQDItems {
 
     public static final Item GRILL = register("grill", new BlockItem(BBQDBlocks.GRILL, new Item.Settings()));
     public static final Item INGREDIENTS_BASIN = register("ingredients_basin", new BlockItem(BBQDBlocks.INGREDIENTS_BASIN, new Item.Settings()));
-    public static final Item CUMIN_POWDER = register("cumin_powder", new SeasoningItem("cumin_powder"));
-    public static final Item PEPPER_POWDER = register("pepper_powder", new SeasoningItem("pepper_powder"));
-    public static final Item CHILLI_POWDER = register("chilli_powder", new SeasoningItem("chilli_powder"));
-    public static final Item BURNT_FOOD = register("burnt_food", new ConsumableItem(new Item.Settings().food(new FoodComponent.Builder().alwaysEdible().statusEffect(new StatusEffectInstance(StatusEffects.POISON, 200, 1), 1.0f).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200, 1), 1.0f).hunger(4).build()), true));
-    public static final Item COD_SKEWER = register("cod_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item COOKED_COD_SKEWER = register("cooked_cod_skewer", new SkewerItem(BBQDFoods.COOKED_COD_SKEWER, false));
-    public static final Item SALMON_SKEWER = register("salmon_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item COOKED_SALMON_SKEWER = register("cooked_salmon_skewer", new SkewerItem(BBQDFoods.COOKED_SALMON_SKEWER, false));
-    public static final Item CHICKEN_SKEWER = register("chicken_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item COOKED_CHICKEN_SKEWER = register("cooked_chicken_skewer", new SkewerItem(BBQDFoods.COOKED_CHICKEN_SKEWER, false));
-    public static final Item BEEF_SKEWER = register("beef_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item COOKED_BEEF_SKEWER = register("cooked_beef_skewer", new SkewerItem(BBQDFoods.COOKED_BEEF_SKEWER, false));
-    public static final Item LAMB_SKEWER = register("lamb_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item COOKED_LAMB_SKEWER = register("cooked_lamb_skewer", new SkewerItem(BBQDFoods.COOKED_LAMB_SKEWER, true));
-    public static final Item RABBIT_SKEWER = register("rabbit_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item COOKED_RABBIT_SKEWER = register("cooked_rabbit_skewer", new SkewerItem(BBQDFoods.COOKED_RABBIT_SKEWER, true));
-    public static final Item PORK_SAUSAGE_SKEWER = register("pork_sausage_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item GRILLED_PORK_SAUSAGE_SKEWER = register("grilled_pork_sausage_skewer", new SkewerItem(BBQDFoods.GRILLED_PORK_SAUSAGE_SKEWER, true));
-    public static final Item POTATO_SKEWER = register("potato_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item BAKED_POTATO_SKEWER = register("baked_potato_skewer", new SkewerItem(BBQDFoods.BAKED_POTATO_SKEWER, true));
-    public static final Item MUSHROOM_SKEWER = register("mushroom_skewer", new Item(new Item.Settings().recipeRemainder(Items.STICK)));
-    public static final Item COOKED_MUSHROOM_SKEWER = register("cooked_mushroom_skewer", new SkewerItem(BBQDFoods.COOKED_MUSHROOM_SKEWER, false));
+    public static final Item CUMIN_POWDER = register("cumin_powder", new SeasoningItem(BBQDSeasoning.CUMIN_SEASONING));
+    public static final Item PEPPER_POWDER = register("pepper_powder", new SeasoningItem(BBQDSeasoning.PEPPER_SEASONING));
+    public static final Item CHILLI_POWDER = register("chilli_powder", new SeasoningItem(BBQDSeasoning.CHILLI_SEASONING));
 
+    public static final Item COD_SKEWER = register("cod_skewer", rawSkewerItem());
+    public static final Item SALMON_SKEWER = register("salmon_skewer", rawSkewerItem());
+    public static final Item CHICKEN_SKEWER = register("chicken_skewer", rawSkewerItem());
+    public static final Item BEEF_SKEWER = register("beef_skewer", rawSkewerItem());
+    public static final Item LAMB_SKEWER = register("lamb_skewer", rawSkewerItem());
+    public static final Item RABBIT_SKEWER = register("rabbit_skewer", rawSkewerItem());
+    public static final Item PORK_SAUSAGE_SKEWER = register("pork_sausage_skewer", rawSkewerItem());
+    public static final Item POTATO_SKEWER = register("potato_skewer", rawSkewerItem());
+    public static final Item MUSHROOM_SKEWER = register("mushroom_skewer", rawSkewerItem());
+
+    public static final Item GRILLED_COD_SKEWER = register("grilled_cod_skewer", cookedSkewerItem(BBQDFoods.GRILLED_COD_SKEWER, false));
+    public static final Item GRILLED_SALMON_SKEWER = register("grilled_salmon_skewer", cookedSkewerItem(BBQDFoods.GRILLED_SALMON_SKEWER, false));
+    public static final Item GRILLED_CHICKEN_SKEWER = register("grilled_chicken_skewer", cookedSkewerItem(BBQDFoods.GRILLED_CHICKEN_SKEWER, false));
+    public static final Item GRILLED_BEEF_SKEWER = register("grilled_beef_skewer", cookedSkewerItem(BBQDFoods.GRILLED_BEEF_SKEWER, false));
+    public static final Item GRILLED_LAMB_SKEWER = register("grilled_lamb_skewer", cookedSkewerItem(BBQDFoods.GRILLED_LAMB_SKEWER, true));
+    public static final Item GRILLED_RABBIT_SKEWER = register("grilled_rabbit_skewer", cookedSkewerItem(BBQDFoods.GRILLED_RABBIT_SKEWER, true));
+    public static final Item GRILLED_PORK_SAUSAGE_SKEWER = register("grilled_pork_sausage_skewer", cookedSkewerItem(BBQDFoods.GRILLED_PORK_SAUSAGE_SKEWER, true));
+    public static final Item GRILLED_POTATO_SKEWER = register("grilled_potato_skewer", cookedSkewerItem(BBQDFoods.GRILLED_POTATO_SKEWER, true));
+    public static final Item GRILLED_MUSHROOM_SKEWER = register("grilled_mushroom_skewer", cookedSkewerItem(BBQDFoods.GRILLED_MUSHROOM_SKEWER, false));
+
+    public static final Item BURNT_FOOD = register("burnt_food", new ConsumableItem(new Item.Settings().food(BBQDFoods.BURNT_FOOD), true));
     public static final Item KEBAB_WRAP = register("kebab_wrap", new ConsumableItem(new Item.Settings().food(BBQDFoods.SKEWER_WRAP), true));
     public static final Item KEBAB_SANDWICH = register("kebab_sandwich", new Item(new Item.Settings().food(BBQDFoods.SKEWER_SANDWICH)));
 
@@ -47,6 +46,14 @@ public class BBQDItems {
         Item i =  Items.register(BarbequesDelight.asID(id), item);
         ItemGroupEvents.modifyEntriesEvent(BarbequesDelight.ITEM_GROUP).register(entries -> entries.add(i));
         return i;
+    }
+
+    private static Item rawSkewerItem(){
+        return new Item(new Item.Settings().recipeRemainder(Items.STICK));
+    }
+
+    private static Item cookedSkewerItem(FoodComponent food, boolean hasTooltip){
+        return new ConsumableItem(new Item.Settings().food(food).recipeRemainder(Items.STICK), hasTooltip);
     }
 
     public static void registerBBQDItems(){

@@ -31,14 +31,13 @@ public class SkeweringCategory implements DisplayCategory<SkeweringDisplay> {
 
     @Override
     public Text getTitle() {
-        return BBQDBlocks.INGREDIENTS_BASIN.getName();
+        return Text.translatable("barbequesdelight.rei.skewering");
     }
 
     @Override
     public Renderer getIcon() {
         return EntryStacks.of(BBQDItems.INGREDIENTS_BASIN);
     }
-
 
     @Override
     public List<Widget> setupDisplay(SkeweringDisplay display, Rectangle bounds) {

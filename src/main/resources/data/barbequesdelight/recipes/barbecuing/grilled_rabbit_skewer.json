@@ -1,0 +1,8 @@
+{
+  "type": "barbequesdelight:barbecuing",
+  "ingredient": {
+    "item": "barbequesdelight:rabbit_skewer"
+  },
+  "result": "barbequesdelight:grilled_rabbit_skewer",
+  "barbecuingtime": 320
+}

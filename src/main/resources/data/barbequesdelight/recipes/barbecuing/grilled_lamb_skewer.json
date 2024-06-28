@@ -1,0 +1,8 @@
+{
+  "type": "barbequesdelight:barbecuing",
+  "ingredient": {
+    "item": "barbequesdelight:lamb_skewer"
+  },
+  "result": "barbequesdelight:grilled_lamb_skewer",
+  "barbecuingtime": 360
+}

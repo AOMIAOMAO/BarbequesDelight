@@ -103,7 +103,7 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
     public boolean flip(int i){
         if (canFlip(i)){
             setFlipped(i, true);
-            this.barbecuingTimes[i] = 0;
+            this.barbecuingTimes[i] = (this.barbecuingTimesTotal[i] / 2);
             this.inventoryChanged();
             sendUpdatePacket(this);
             this.writeFlipped(new NbtCompound());

@@ -19,6 +19,8 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 public class IngredientsBasinBlock extends BlockWithEntity {
@@ -78,6 +80,18 @@ public class IngredientsBasinBlock extends BlockWithEntity {
         return state.rotate(mirror.getRotation(state.get(HorizontalFacingBlock.FACING)));
     }
 
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState stateIn, Direction facing, BlockState facingState, WorldAccess world, BlockPos currentPos, BlockPos facingPos) {
+        return facing == Direction.DOWN && !stateIn.canPlaceAt(world, currentPos)
+                ? Blocks.AIR.getDefaultState()
+                : super.getStateForNeighborUpdate(stateIn, facing, facingState, world, currentPos, facingPos);
+    }
+
+    @Override
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        BlockPos floorPos = pos.down();
+        return Block.hasTopRim(world, floorPos) || Block.sideCoversSmallSquare(world, floorPos, Direction.UP);
+    }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {

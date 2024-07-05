@@ -2,7 +2,6 @@ package com.mao.barbequesdelight.integration.rei.skewering;
 
 import com.mao.barbequesdelight.BarbequesDelight;
 import com.mao.barbequesdelight.integration.rei.BBQDREIPlugin;
-import com.mao.barbequesdelight.registry.BBQDBlocks;
 import com.mao.barbequesdelight.registry.BBQDItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;

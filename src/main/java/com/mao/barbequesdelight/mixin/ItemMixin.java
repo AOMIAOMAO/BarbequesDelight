@@ -1,8 +1,8 @@
 package com.mao.barbequesdelight.mixin;
 
+import com.mao.barbequesdelight.common.event.FinishUsingItemCallback;
 import com.mao.barbequesdelight.registry.BBQDSeasoning;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,10 +23,7 @@ public abstract class ItemMixin {
 
     @Inject(at = @At("HEAD"), method = "finishUsing")
     private void effect(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir){
-        BBQDSeasoning seasoning = BBQDSeasoning.matching(stack);
-        if (seasoning != null && user instanceof PlayerEntity player){
-            seasoning.other(player);
-        }
+        FinishUsingItemCallback.EVENT.invoker().finishUseing(stack, world, user);
     }
 
     @Inject(at = @At("HEAD"), method = "getMaxUseTime", cancellable = true)

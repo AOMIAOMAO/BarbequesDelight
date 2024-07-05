@@ -1,0 +1,41 @@
+{
+  "itemGroup.barbequesdelight.main": "Barbeque's Delight",
+
+  "item.barbequesdelight.chilli_powder": "고춧가루",
+  "item.barbequesdelight.cumin_powder": "쿠민가루",
+  "item.barbequesdelight.pepper_powder": "후춧가루",
+
+  "item.barbequesdelight.burnt_food": "타버린 음식",
+  "item.barbequesdelight.kebab_wrap": "케밥 롤",
+  "item.barbequesdelight.kebab_sandwich": "케밥 샌드위치",
+
+  "item.barbequesdelight.cod_skewer": "익히지 않은 대구 꼬치",
+  "item.barbequesdelight.grilled_cod_skewer": "익힌 대구 꼬치",
+  "item.barbequesdelight.salmon_skewer": "익히지 않은 연어 꼬치",
+  "item.barbequesdelight.grilled_salmon_skewer": "익힌 연어 꼬치",
+  "item.barbequesdelight.chicken_skewer": "익히지 않은 닭고기 꼬치",
+  "item.barbequesdelight.grilled_chicken_skewer": "익힌 닭고기 꼬치",
+  "item.barbequesdelight.lamb_skewer": "익히지 않은 양고기 꼬치",
+  "item.barbequesdelight.grilled_lamb_skewer": "익힌 양고기 꼬치",
+  "item.barbequesdelight.rabbit_skewer": "익히지 않은 토끼고기 꼬치",
+  "item.barbequesdelight.grilled_rabbit_skewer": "익힌 토끼고기 꼬치",
+  "item.barbequesdelight.pork_sausage_skewer": "익히지 않은 소세지 꼬치",
+  "item.barbequesdelight.grilled_pork_sausage_skewer": "익힌 소세지 꼬치",
+  "item.barbequesdelight.potato_skewer": "굽지 않은 감자 꼬치",
+  "item.barbequesdelight.grilled_potato_skewer": "구운 감자 꼬치",
+  "item.barbequesdelight.beef_skewer": "익히지 않은 소고기 꼬치",
+  "item.barbequesdelight.grilled_beef_skewer": "익힌 소고기 꼬치",
+  "item.barbequesdelight.mushroom_skewer": "굽지 않은 버섯 꼬치",
+  "item.barbequesdelight.grilled_mushroom_skewer": "구운 버섯 꼬치",
+
+  "item.barbequesdelight.chilli_powder.tooltip": "피해를 입히고 허기를 증가시킵니다.",
+  "item.barbequesdelight.pepper_powder.tooltip": "먹는 시간을 줄입니다.",
+  "item.barbequesdelight.cumin_powder.tooltip": "체력을 회복합니다.",
+  "item.barbequesdelight.skewers.tooltip": "양념: ",
+
+  "barbequesdelight.rei.barbecuing": "바베큐 중",
+  "barbequesdelight.rei.skewering": "꼬치 만드는 중",
+
+  "block.barbequesdelight.grill": "바베큐 그릴",
+  "block.barbequesdelight.ingredients_basin": "재료통"
+}

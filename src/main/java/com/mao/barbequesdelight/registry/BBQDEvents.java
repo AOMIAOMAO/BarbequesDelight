@@ -1,7 +1,7 @@
 package com.mao.barbequesdelight.registry;
 
 
-import com.mao.barbequesdelight.common.event.FinishUsingItemCallback;
+import com.mao.barbequesdelight.common.event.FinishingUsingItemCallback;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
@@ -19,7 +19,7 @@ public class BBQDEvents {
             }
         });
 
-        FinishUsingItemCallback.EVENT.register((stack, world, entity) -> {
+        FinishingUsingItemCallback.EVENT.register((world, stack, entity) -> {
             BBQDSeasoning seasoning = BBQDSeasoning.matching(stack);
             if (seasoning != null && entity instanceof PlayerEntity player){
                 seasoning.other(player);

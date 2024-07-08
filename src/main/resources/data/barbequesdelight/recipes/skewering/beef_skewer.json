@@ -4,7 +4,7 @@
     "item": "minecraft:beef"
   },
   "sidedishes": {
-    "item":"farmersdelight:cabbage_leaf",
+    "item":"minecraft:brown_mushroom",
     "count": 2
   },
   "result": "barbequesdelight:beef_skewer",

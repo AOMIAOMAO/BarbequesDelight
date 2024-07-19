@@ -1,0 +1,39 @@
+{
+  "itemGroup.barbequesdelight.main": "Barbeque's Delight",
+
+  "item.barbequesdelight.chilli_powder": "Cпеції чилі",
+  "item.barbequesdelight.cumin_powder": "Спеції кмину",
+  "item.barbequesdelight.pepper_powder": "Спеції перця",
+
+  "item.barbequesdelight.burnt_food": "Спалена їжа",
+  "item.barbequesdelight.kebab_wrap": "Кебаб",
+  "item.barbequesdelight.kebab_sandwich": "Кебаб Сендвіч",
+
+  "item.barbequesdelight.cod_skewer": "Сирий шашлик з тріски",
+  "item.barbequesdelight.grilled_cod_skewer": "Шашлик з тріски",
+  "item.barbequesdelight.salmon_skewer": "Сирий шашлик з лосося",
+  "item.barbequesdelight.grilled_salmon_skewer": "Шашлиик з лосося",
+  "item.barbequesdelight.chicken_skewer": "Сирий шашлик з курки",
+  "item.barbequesdelight.grilled_chicken_skewer": "Шашлик з курки",
+  "item.barbequesdelight.lamb_skewer": "Сирий шашлик з баранини",
+  "item.barbequesdelight.grilled_lamb_skewer": "Шашлик з баранини",
+  "item.barbequesdelight.rabbit_skewer": "Сирий шашлик з кролика",
+  "item.barbequesdelight.grilled_rabbit_skewer": "Шашлик з кролика",
+  "item.barbequesdelight.pork_sausage_skewer": "Сирий шашлик зі свинячої ковбаски",
+  "item.barbequesdelight.grilled_pork_sausage_skewer": "Шашлик зі свинячої ковбаски",
+  "item.barbequesdelight.potato_skewer": "Сирий шашлик з картоплі",
+  "item.barbequesdelight.grilled_potato_skewer": "Шашлик з картоплі",
+  "item.barbequesdelight.beef_skewer": "Сирий шашлик з яловичини",
+  "item.barbequesdelight.grilled_beef_skewer": "Шашлик з яловичини",
+
+  "item.barbequesdelight.chilli_powder.tooltip": "Наносить шкоду й збільшує голод",
+  "item.barbequesdelight.pepper_powder.tooltip": "Зменшує час споживання",
+  "item.barbequesdelight.cumin_powder.tooltip": "Відновлює здоровʼя гравця",
+  "item.barbequesdelight.skewers.tooltip": "Спеції: ",
+
+  "barbequesdelight.rei.barbecuing": "Приготування барбекю",
+  "barbequesdelight.rei.skewering": "Приготування шашлика",
+
+  "block.barbequesdelight.grill": "Гриль",
+  "block.barbequesdelight.ingredients_basin": "Коробка інгредієнтів"
+}

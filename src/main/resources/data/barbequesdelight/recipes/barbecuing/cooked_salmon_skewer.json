@@ -1,8 +1,0 @@
-{
-  "type": "barbequesdelight:barbecuing",
-  "ingredient": {
-    "item": "barbequesdelight:salmon_skewer"
-  },
-  "result": "barbequesdelight:cooked_salmon_skewer",
-  "barbecuingtime": 300
-}

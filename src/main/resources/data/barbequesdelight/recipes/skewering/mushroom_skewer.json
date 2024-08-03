@@ -1,8 +1,0 @@
-{
-  "type": "barbequesdelight:skewering",
-  "ingredient": {
-    "item": "minecraft:brown_mushroom"
-  },
-  "result": "barbequesdelight:mushroom_skewer",
-  "count": 3
-}

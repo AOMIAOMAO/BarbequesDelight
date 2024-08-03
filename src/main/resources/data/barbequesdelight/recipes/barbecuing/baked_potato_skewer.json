@@ -1,8 +1,0 @@
-{
-  "type": "barbequesdelight:barbecuing",
-  "ingredient": {
-    "item": "barbequesdelight:potato_skewer"
-  },
-  "result": "barbequesdelight:baked_potato_skewer",
-  "barbecuingtime": 280
-}

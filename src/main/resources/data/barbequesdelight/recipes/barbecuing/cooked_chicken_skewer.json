@@ -1,8 +1,0 @@
-{
-  "type": "barbequesdelight:barbecuing",
-  "ingredient": {
-    "item": "barbequesdelight:chicken_skewer"
-  },
-  "result": "barbequesdelight:cooked_chicken_skewer",
-  "barbecuingtime": 260
-}

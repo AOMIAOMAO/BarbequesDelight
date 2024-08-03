@@ -1,8 +1,0 @@
-{
-  "type": "barbequesdelight:barbecuing",
-  "ingredient": {
-    "item": "barbequesdelight:cod_skewer"
-  },
-  "result": "barbequesdelight:cooked_cod_skewer",
-  "barbecuingtime": 300
-}

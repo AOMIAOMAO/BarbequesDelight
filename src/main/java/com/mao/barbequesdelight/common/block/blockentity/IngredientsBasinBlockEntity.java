@@ -22,11 +22,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class IngredientsBasinBlockEntity extends BlockEntity implements BlockEntityInv{
-
     public final DefaultedList<ItemStack> items;
 
     public IngredientsBasinBlockEntity(BlockPos pos, BlockState state) {
-        super(BBQDEntityTypes.INGREDIENTS_BASIN_BLOCK_ENTITY, pos, state);
+        super(BBQDEntityTypes.INGREDIENTS_BASIN, pos, state);
         this.items = DefaultedList.ofSize(2, ItemStack.EMPTY);
     }
 

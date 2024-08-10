@@ -12,6 +12,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.*;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -24,6 +25,7 @@ import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 public class IngredientsBasinBlock extends BlockWithEntity {
+    public static final VoxelShape OUTER, SHAPE_X, SHAPE_Z;
 
     public IngredientsBasinBlock() {
         super(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS));
@@ -33,31 +35,32 @@ public class IngredientsBasinBlock extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.getBlockEntity(pos) instanceof IngredientsBasinBlockEntity basin){
-            int i = basin.getSlotForHitting(hit, world);
-            if (i != basin.size()){
-                ItemStack itemInBasin = basin.getStack(i);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof IngredientsBasinBlockEntity basin) {
+            int slot = basin.getSlotForHitting(hit, world);
+            if (slot < basin.size()) {
+                ItemStack itemInBasin = basin.getStack(slot);
                 ItemStack stack = player.getStackInHand(hand);
 
-                if (itemInBasin.isEmpty() && !stack.isEmpty() && !basin.skewer(player, i)){
-                    basin.setStack(i, stack.split(stack.getCount()));
-                    basin.inventoryChanged();
-                    world.playSound(null, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    return ActionResult.success(world.isClient());
-                }else if (basin.skewer(player, i)){
+                if (itemInBasin.isEmpty() && !stack.isEmpty()) {
+                    if (!basin.skewer(player, slot)) {
+                        basin.setStack(slot, stack.split(stack.getCount()));
+                        basin.inventoryChanged();
+                        world.playSound(null, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        return ActionResult.success(world.isClient());
+                    }
                     world.playSound(null, pos, SoundEvents.ITEM_BUNDLE_INSERT, SoundCategory.PLAYERS, 1.0f, 1.0f);
-                    basin.inventoryChanged();
-                    return ActionResult.success(world.isClient());
-                }else {
+                } else if (basin.skewer(player, slot)) {
+                    world.playSound(null, pos, SoundEvents.ITEM_BUNDLE_INSERT, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                } else {
                     world.playSound(null, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     player.getInventory().offerOrDrop(itemInBasin.split(itemInBasin.getCount()));
-                    basin.inventoryChanged();
-                    return ActionResult.success(world.isClient());
                 }
+                basin.inventoryChanged();
+                return ActionResult.success(world.isClient());
             }
-            return ActionResult.CONSUME;
         }
-        return ActionResult.CONSUME;
+        return ActionResult.PASS;
     }
 
     @Override
@@ -95,13 +98,7 @@ public class IngredientsBasinBlock extends BlockWithEntity {
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        VoxelShape shape = VoxelShapes.empty();
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0625, 0, 0.0625, 0.9375, 0.0625, 0.9375));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.875, 0.0625, 0.125, 0.9375, 0.25, 0.875));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0625, 0.0625, 0.875, 0.9375, 0.25, 0.9375));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0625, 0.0625, 0.0625, 0.9375, 0.25, 0.125));
-        shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0625, 0.0625, 0.125, 0.125, 0.25, 0.875));
-        return shape;
+        return state.get(HorizontalFacingBlock.FACING).getAxis() == Direction.Axis.X ? SHAPE_X : SHAPE_Z;
     }
 
     @Override
@@ -128,5 +125,18 @@ public class IngredientsBasinBlock extends BlockWithEntity {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    static {
+        OUTER = Block.createCuboidShape(1, 0, 1, 15, 4, 15);
+        SHAPE_Z = VoxelShapes.combineAndSimplify(OUTER,
+                VoxelShapes.union(Block.createCuboidShape(2, 1, 2, 7.5, 4, 14),
+                        Block.createCuboidShape(8.5, 1, 2, 14, 4, 14)),
+                BooleanBiFunction.ONLY_FIRST);
+
+        SHAPE_X = VoxelShapes.combineAndSimplify(OUTER,
+                VoxelShapes.union(Block.createCuboidShape(2, 1, 2, 14, 4, 7.5),
+                        Block.createCuboidShape(2, 1, 8.5, 14, 4, 14)),
+                BooleanBiFunction.ONLY_FIRST);
     }
 }

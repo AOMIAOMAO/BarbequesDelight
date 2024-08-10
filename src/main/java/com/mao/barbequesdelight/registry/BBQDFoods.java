@@ -1,5 +1,6 @@
 package com.mao.barbequesdelight.registry;
 
+import dev.architectury.platform.Mod;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
@@ -19,4 +20,5 @@ public class BBQDFoods {
     public static final FoodComponent GRILLED_POTATO_SKEWER = new FoodComponent.Builder().hunger(6).saturationModifier(0.6f).statusEffect(new StatusEffectInstance(ModEffects.NOURISHMENT.get(), 20 * 90, 0), 0.5f).build();
     public static final FoodComponent SKEWER_WRAP = new FoodComponent.Builder().hunger(9).saturationModifier(0.8f).statusEffect(new StatusEffectInstance(ModEffects.NOURISHMENT.get(), 20 * 60, 0), 0.5f).build();
     public static final FoodComponent GRILLED_BEEF_SKEWER = new FoodComponent.Builder().hunger(10).saturationModifier(0.6f).statusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 20 * 90, 0), 0.5f).build();
+    public static final FoodComponent BIBIMBAP = new FoodComponent.Builder().hunger(16).saturationModifier(0.75f).statusEffect(new StatusEffectInstance(ModEffects.COMFORT.get(), 20 *90, 0), 1.0f).build();
 }

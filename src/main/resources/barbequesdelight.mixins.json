@@ -4,11 +4,9 @@
   "package": "com.mao.barbequesdelight.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "CuttingBoardBlockMixin",
     "ItemMixin"
   ],
   "client": [
-
   ],
   "injectors": {
     "defaultRequire": 1

@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.CampfireCookingRecipe;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -31,20 +32,13 @@ import vectorwing.farmersdelight.common.registry.ModSounds;
 import java.util.Optional;
 
 public class GrillBlock extends BlockWithEntity {
+    private static final VoxelShape SHAPE;
 
     public GrillBlock() {
         super(Settings.copy(ModBlocks.SKILLET.get()));
         BlockState blockState = this.stateManager.getDefaultState().with(HorizontalFacingBlock.FACING, Direction.NORTH);
         this.setDefaultState(blockState);
     }
-
-    protected static final VoxelShape SHAPE = VoxelShapes.union(
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 10.0D, 1.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 15.0D, 1.0D, 10.0D, 16.0D),
-            Block.createCuboidShape(15.0D, 0.0D, 15.0D, 16.0D, 10.0D, 16.0D),
-            Block.createCuboidShape(15.0D, 0.0D, 0.0D, 16.0D, 10.0D, 1.0D),
-            Block.createCuboidShape(0.0D, 10.0D, 0.0D, 16.0D, 16.0D, 16.0D)
-    );
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
@@ -114,34 +108,40 @@ public class GrillBlock extends BlockWithEntity {
             int i = grill.getSlotForHitting(hit, world);
             ItemStack stack = player.getStackInHand(hand);
 
-            if (i != grill.size()){
+            if (i < grill.size()) {
                 ItemStack grillItems = grill.getStack(i);
                 Optional<BarbecuingRecipe> optional = grill.findMatchingRecipe(stack);
+                Optional<CampfireCookingRecipe> campfireOptional = grill.findMatchingCampfireRecipe(stack);
 
-                if (grillItems.isEmpty() && !stack.isEmpty() && optional.isPresent() && !player.isSneaking()){
-                    grill.setStack(i, stack.split(1));
-                    grill.setBarbecuing(i, optional.get().getBarbecuingTime());
-                    world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 0.7F, 1.0F);
+                if (!player.isSneaking()) {
+                    if (grillItems.isEmpty() && !stack.isEmpty() && (optional.isPresent() || campfireOptional.isPresent())) {
+                        ItemStack itemStack = stack.split(1);
+                        grill.setStack(i, itemStack);
+
+                        optional.ifPresent(recipe -> grill.setBarbecuing(i, recipe.getBarbecuingTime()));
+                        campfireOptional.ifPresent(recipe -> grill.setBarbecuing(i, recipe.getCookTime() -20 *10));
+
+                        world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 0.7F, 1.0F);
+                        return ActionResult.success(world.isClient());
+                    } else if (!grillItems.isEmpty() && stack.isEmpty()) {
+                        player.getInventory().offerOrDrop(grillItems.split(1));
+                        return ActionResult.success(world.isClient());
+                    }
                     grill.inventoryChanged();
-                    return ActionResult.success(world.isClient());
-                }else if (!grillItems.isEmpty() && stack.isEmpty() && !player.isSneaking()){
-                    player.getInventory().offerOrDrop(grillItems.split(1));
-                    grill.inventoryChanged();
-                    return ActionResult.success(world.isClient());
                 }
 
                 if (player.isSneaking() && grill.flip(i)) {
-                    world.playSound(null, (float)pos.getX() + 0.5F, (float)pos.getY() + 0.5F, (float)pos.getZ() + 0.5F, ModSounds.BLOCK_SKILLET_ADD_FOOD.get(), SoundCategory.BLOCKS, 0.8F, 1.0F);
-                    return ActionResult.SUCCESS;
+                    world.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, ModSounds.BLOCK_SKILLET_ADD_FOOD.get(), SoundCategory.BLOCKS, 0.8F, 1.0F);
+                    return ActionResult.success(world.isClient());
                 }
             }
         }
-        return ActionResult.CONSUME;
+        return ActionResult.PASS;
     }
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> blockEntity) {
-        return GrillBlock.checkType(world, blockEntity, BBQDEntityTypes.GRILL_BLOCK_ENTITY);
+        return GrillBlock.checkType(world, blockEntity, BBQDEntityTypes.GRILL);
     }
 
     @Nullable
@@ -158,5 +158,15 @@ public class GrillBlock extends BlockWithEntity {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    static {
+        SHAPE = VoxelShapes.union(
+                Block.createCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 10.0D, 1.0D),
+                Block.createCuboidShape(0.0D, 0.0D, 15.0D, 1.0D, 10.0D, 16.0D),
+                Block.createCuboidShape(15.0D, 0.0D, 15.0D, 16.0D, 10.0D, 16.0D),
+                Block.createCuboidShape(15.0D, 0.0D, 0.0D, 16.0D, 10.0D, 1.0D),
+                Block.createCuboidShape(0.0D, 10.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+        );
     }
 }

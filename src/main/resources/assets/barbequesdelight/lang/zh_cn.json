@@ -8,6 +8,7 @@
   "item.barbequesdelight.burnt_food": "烧焦的食物",
   "item.barbequesdelight.kebab_wrap": "烧烤卷饼",
   "item.barbequesdelight.kebab_sandwich": "烧烤三明治",
+  "item.barbequesdelight.bibimbap": "烤肉拌饭",
 
   "item.barbequesdelight.cod_skewer": "生鳕鱼肉串",
   "item.barbequesdelight.grilled_cod_skewer": "烤鳕鱼肉串",
@@ -26,14 +27,19 @@
   "item.barbequesdelight.beef_skewer": "生牛肉串",
   "item.barbequesdelight.grilled_beef_skewer": "烤牛肉串",
 
-  "item.barbequesdelight.chilli_powder.tooltip": "造成伤害但增加饥饿值",
-  "item.barbequesdelight.pepper_powder.tooltip": "缩短食用时间",
-  "item.barbequesdelight.cumin_powder.tooltip": "回复玩家生命值",
-  "item.barbequesdelight.skewers.tooltip": "调料: ",
+  "item.barbequesdelight.chilli.tooltip": "造成伤害但增加饥饿值",
+  "item.barbequesdelight.pepper.tooltip": "缩短食用事件",
+  "item.barbequesdelight.cumin.tooltip": "回复玩家的生命值",
+
+  "item.barbequesdelight.skewers.tooltip": "口味: ",
+  "item.barbequesdelight.flavor.chilli": "辛辣",
+  "item.barbequesdelight.flavor.cumin": "芳香",
+  "item.barbequesdelight.flavor.pepper": "胡椒",
 
   "barbequesdelight.rei.barbecuing": "烧烤",
   "barbequesdelight.rei.skewering": "串串",
 
   "block.barbequesdelight.grill": "烧烤架",
-  "block.barbequesdelight.ingredients_basin": "配料盆"
+  "block.barbequesdelight.ingredients_basin": "配料盆",
+  "block.barbequesdelight.tray": "托盘"
 }

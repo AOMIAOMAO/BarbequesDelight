@@ -17,6 +17,8 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.CampfireCookingRecipe;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.collection.DefaultedList;
@@ -38,7 +40,7 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
     public final boolean[] burnt;
 
     public GrillBlockEntity(BlockPos pos, BlockState state) {
-        super(BBQDEntityTypes.GRILL_BLOCK_ENTITY, pos, state);
+        super(BBQDEntityTypes.GRILL, pos, state);
         this.barbecuingTimes = new int[2];
         this.barbecuingTimesTotal = new int[2];
         this.burnt = new boolean[2];
@@ -63,7 +65,9 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
                 if (barbecuingTimes[i] == barbecuingTimesTotal[i]){
                     if (world != null){
                         Inventory inventory = new SimpleInventory(stack);
-                        ItemStack result = world.getRecipeManager().getAllMatches(BarbecuingRecipe.Type.INSTANCE, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(stack);
+
+                        ItemStack campfire = world.getRecipeManager().getAllMatches(RecipeType.CAMPFIRE_COOKING, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(stack);
+                        ItemStack result = world.getRecipeManager().getAllMatches(BarbecuingRecipe.Type.INSTANCE, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(campfire);
                         if (getFlipped(i)){
                             this.setStack(i, result);
                         }else {
@@ -164,6 +168,10 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
 
     public Optional<BarbecuingRecipe> findMatchingRecipe(ItemStack itemStack) {
         return this.world != null && this.items.stream().anyMatch(ItemStack::isEmpty) ? this.world.getRecipeManager().getFirstMatch(BarbecuingRecipe.Type.INSTANCE, new SimpleInventory(itemStack), this.world) : Optional.empty();
+    }
+
+    public Optional<CampfireCookingRecipe> findMatchingCampfireRecipe(ItemStack itemStack) {
+        return this.world != null && this.items.stream().anyMatch(ItemStack::isEmpty) ? this.world.getRecipeManager().getFirstMatch(RecipeType.CAMPFIRE_COOKING, new SimpleInventory(itemStack), this.world) : Optional.empty();
     }
 
     public Vec2f getGrillItemOffset(int index) {

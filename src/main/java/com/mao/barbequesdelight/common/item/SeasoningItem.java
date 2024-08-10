@@ -1,7 +1,7 @@
 package com.mao.barbequesdelight.common.item;
 
 import com.mao.barbequesdelight.BarbequesDelight;
-import com.mao.barbequesdelight.registry.BBQDSeasoning;
+import com.mao.barbequesdelight.common.util.BBQDSeasoning;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
@@ -19,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SeasoningItem extends Item {
-
     private final BBQDSeasoning seasoning;
 
     public SeasoningItem(BBQDSeasoning seasoning) {
@@ -27,18 +26,18 @@ public class SeasoningItem extends Item {
         this.seasoning = seasoning;
     }
 
-    public String getSeasoning() {
-        return seasoning.getSeasoning();
+    public BBQDSeasoning getSeasoning() {
+        return seasoning;
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.translatable("item.barbequesdelight." + getSeasoning() + ".tooltip").formatted(Formatting.YELLOW));
+        tooltip.add(Text.translatable("item.barbequesdelight." + getSeasoning().getName() + ".tooltip").formatted(Formatting.YELLOW));
     }
 
     public void sprinkle(ItemStack skewer, Vec3d pos, PlayerEntity player, ItemStack stackInHand){
-        skewer.getOrCreateNbt().putString("seasoning", getSeasoning());
+        skewer.getOrCreateNbt().putString("seasoning", getSeasoning().name());
         player.playSound(SoundEvents.BLOCK_SAND_BREAK, 0.7f, 1.0f);
         Integer color = seasoning.color.getColorValue();
         int col = color == null ? 0 : color;

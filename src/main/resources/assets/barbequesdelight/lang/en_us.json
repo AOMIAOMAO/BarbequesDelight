@@ -8,6 +8,7 @@
   "item.barbequesdelight.burnt_food": "Burnt Food",
   "item.barbequesdelight.kebab_wrap": "Kebab Wrap",
   "item.barbequesdelight.kebab_sandwich": "Kebab Sandwich",
+  "item.barbequesdelight.bibimbap": "Bibimbap",
 
   "item.barbequesdelight.cod_skewer": "Raw Cod Skewer",
   "item.barbequesdelight.grilled_cod_skewer": "Grilled Cod Skewer",
@@ -26,14 +27,19 @@
   "item.barbequesdelight.beef_skewer": "Raw Beef Skewer",
   "item.barbequesdelight.grilled_beef_skewer": "Grilled Beef Skewer",
 
-  "item.barbequesdelight.chilli_powder.tooltip": "Deals damage and increases hunger",
-  "item.barbequesdelight.pepper_powder.tooltip": "Shortened consumption time",
-  "item.barbequesdelight.cumin_powder.tooltip": "Restores the player's health",
-  "item.barbequesdelight.skewers.tooltip": "Seasoning: ",
+  "item.barbequesdelight.chilli.tooltip": "Deals damage and increases hunger",
+  "item.barbequesdelight.pepper.tooltip": "Shortened consumption time",
+  "item.barbequesdelight.cumin.tooltip": "Restores the player's health",
+
+  "item.barbequesdelight.skewers.tooltip": "Flavor: ",
+  "item.barbequesdelight.flavor.chilli": "Spicy",
+  "item.barbequesdelight.flavor.cumin": "Aromatic",
+  "item.barbequesdelight.flavor.pepper": "Peppery",
 
   "barbequesdelight.rei.barbecuing": "Barbecuing",
   "barbequesdelight.rei.skewering": "Skewering",
 
   "block.barbequesdelight.grill": "Grill",
-  "block.barbequesdelight.ingredients_basin": "Ingredients Basin"
+  "block.barbequesdelight.ingredients_basin": "Ingredients Basin",
+  "block.barbequesdelight.tray": "Tray"
 }

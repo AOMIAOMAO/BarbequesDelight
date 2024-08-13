@@ -1,12 +1,15 @@
 {
   "type": "barbequesdelight:skewering",
-  "ingredient": {
-    "item": "minecraft:beef"
+  "ingredients": [
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "item": "minecraft:beef"
+    }
+  ],
+  "result": {
+    "item" : "barbequesdelight:beef_skewer"
   },
-  "sidedishes": {
-    "item":"minecraft:brown_mushroom",
-    "count": 2
-  },
-  "result": "barbequesdelight:beef_skewer",
-  "count": 1
+  "count": 2
 }

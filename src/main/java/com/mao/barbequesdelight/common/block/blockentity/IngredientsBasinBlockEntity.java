@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
@@ -29,29 +30,23 @@ public class IngredientsBasinBlockEntity extends BlockEntity implements BlockEnt
         this.items = DefaultedList.ofSize(2, ItemStack.EMPTY);
     }
 
-    public boolean skewer(PlayerEntity user, int slot){
+    public boolean skewer(PlayerEntity user, int slot, Hand hand){
+        if (world == null) return false;
         ItemStack stack = user.getMainHandStack();
         ItemStack basin = getStack(slot);
         ItemStack garnishes = user.getOffHandStack();
+        SimpleInventory inventory = new SimpleInventory(basin, garnishes, stack);
 
-        Optional<SkeweringRecipe> optional = Objects.requireNonNull(getWorld()).getRecipeManager().getFirstMatch(SkeweringRecipe.Type.INSTANCE, new SimpleInventory(basin), getWorld());
-        if (optional.isEmpty()) {
-            return false;
-        }
+        Optional<SkeweringRecipe> optional = Objects.requireNonNull(getWorld()).getRecipeManager().getFirstMatch(SkeweringRecipe.Type.INSTANCE, inventory, getWorld());
+        if (optional.isEmpty())return false;
+        if (world.isClient())return true;
         SkeweringRecipe recipe = optional.get();
-        if (stack.isOf(recipe.getTool().getItem()) && garnishes.isOf(recipe.getSideDishes().getItem()) && garnishes.getCount() >= recipe.getSideDishes().getCount()) {
-            if (world != null) {
-                ItemStack result = world.getRecipeManager().getAllMatches(SkeweringRecipe.Type.INSTANCE, new SimpleInventory(basin), world).stream().map(Srecipe -> Srecipe.craft(this, world.getRegistryManager())).findAny().orElse(basin);
-
-                basin.decrement(recipe.getIngredientCount());
-                garnishes.decrement(recipe.getSideDishes().getCount());
-                stack.decrement(1);
-                user.getInventory().offerOrDrop(result);
-                return true;
-            }
-            return false;
-        }
-        return false;
+        ItemStack result = recipe.craft(inventory, world.getRegistryManager());
+        if (user.getStackInHand(hand).isEmpty()) {
+            user.setStackInHand(hand, result);
+        } else user.getInventory().offerOrDrop(result);
+        inventoryChanged();
+        return true;
     }
 
     public Vec2f getBasinItemOffset(int index) {

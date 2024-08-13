@@ -26,6 +26,8 @@
   "item.barbequesdelight.grilled_potato_skewer": "烤土豆串",
   "item.barbequesdelight.beef_skewer": "生牛肉串",
   "item.barbequesdelight.grilled_beef_skewer": "烤牛肉串",
+  "item.barbequesdelight.fruit_and_vegetable_skewer": "果蔬串",
+  "item.barbequesdelight.grilled_fruit_and_vegetable_skewer": "烤果蔬串",
 
   "item.barbequesdelight.chilli.tooltip": "造成伤害但增加饥饿值",
   "item.barbequesdelight.pepper.tooltip": "缩短食用事件",
@@ -36,8 +38,12 @@
   "item.barbequesdelight.flavor.cumin": "芳香",
   "item.barbequesdelight.flavor.pepper": "胡椒",
 
-  "barbequesdelight.rei.barbecuing": "烧烤",
+  "barbequesdelight.rei.count": "所需数量: %s",
+  "barbequesdelight.rei.grilling": "烧烤",
   "barbequesdelight.rei.skewering": "串串",
+  "emi.category.barbequesdelight.grilling": "烧烤",
+  "emi.category.barbequesdelight.skewering": "串串",
+  "barbequesdelight.emi.grilling": "%s s",
 
   "block.barbequesdelight.grill": "烧烤架",
   "block.barbequesdelight.ingredients_basin": "配料盆",

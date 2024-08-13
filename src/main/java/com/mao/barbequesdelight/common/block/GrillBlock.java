@@ -1,7 +1,7 @@
 package com.mao.barbequesdelight.common.block;
 
 import com.mao.barbequesdelight.common.block.blockentity.GrillBlockEntity;
-import com.mao.barbequesdelight.common.recipe.BarbecuingRecipe;
+import com.mao.barbequesdelight.common.recipe.GrillingRecipe;
 import com.mao.barbequesdelight.registry.BBQDEntityTypes;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -110,7 +110,7 @@ public class GrillBlock extends BlockWithEntity {
 
             if (i < grill.size()) {
                 ItemStack grillItems = grill.getStack(i);
-                Optional<BarbecuingRecipe> optional = grill.findMatchingRecipe(stack);
+                Optional<GrillingRecipe> optional = grill.findMatchingRecipe(stack);
                 Optional<CampfireCookingRecipe> campfireOptional = grill.findMatchingCampfireRecipe(stack);
 
                 if (!player.isSneaking()) {
@@ -118,7 +118,7 @@ public class GrillBlock extends BlockWithEntity {
                         ItemStack itemStack = stack.split(1);
                         grill.setStack(i, itemStack);
 
-                        optional.ifPresent(recipe -> grill.setBarbecuing(i, recipe.getBarbecuingTime()));
+                        optional.ifPresent(recipe -> grill.setBarbecuing(i, recipe.getGrillingtime()));
                         campfireOptional.ifPresent(recipe -> grill.setBarbecuing(i, recipe.getCookTime() -20 *10));
 
                         world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 0.7F, 1.0F);

@@ -14,12 +14,12 @@ import net.minecraft.util.JsonHelper;
 
 import static net.minecraft.recipe.ShapedRecipe.outputFromJson;
 
-public class BarbecuingRecipeSerializer implements RecipeSerializer<BarbecuingRecipe> {
+public class GrillingRecipeSerializer implements RecipeSerializer<GrillingRecipe> {
 
-    public static final BarbecuingRecipeSerializer INSTANCE = new BarbecuingRecipeSerializer();
+    public static final GrillingRecipeSerializer INSTANCE = new GrillingRecipeSerializer();
 
     @Override
-    public BarbecuingRecipe read(Identifier id, JsonObject json) {
+    public GrillingRecipe read(Identifier id, JsonObject json) {
         Ingredient ingredient = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
 
         ItemStack output;
@@ -32,24 +32,24 @@ public class BarbecuingRecipeSerializer implements RecipeSerializer<BarbecuingRe
             output = new ItemStack(item);
         }
 
-        int barbecuingtime = json.get("barbecuingtime").getAsInt();
+        int barbecuingtime = json.get("grillingtime").getAsInt();
 
-        return new BarbecuingRecipe(ingredient, output, id, barbecuingtime);
+        return new GrillingRecipe(ingredient, output, id, barbecuingtime);
     }
 
     @Override
-    public BarbecuingRecipe read(Identifier id, PacketByteBuf buf) {
+    public GrillingRecipe read(Identifier id, PacketByteBuf buf) {
         Ingredient ingredient = Ingredient.fromPacket(buf);
         ItemStack output = buf.readItemStack();
         int barbecuingtime = buf.readInt();
 
-        return new BarbecuingRecipe(ingredient, output, id, barbecuingtime);
+        return new GrillingRecipe(ingredient, output, id, barbecuingtime);
     }
 
     @Override
-    public void write(PacketByteBuf buf, BarbecuingRecipe recipe) {
+    public void write(PacketByteBuf buf, GrillingRecipe recipe) {
         recipe.ingredient.write(buf);
         buf.writeItemStack(recipe.getOutput(null));
-        buf.writeInt(recipe.getBarbecuingTime());
+        buf.writeInt(recipe.getGrillingtime());
     }
 }

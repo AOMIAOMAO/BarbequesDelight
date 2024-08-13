@@ -1,8 +1,12 @@
 {
   "type": "barbequesdelight:skewering",
-  "ingredient": {
-    "item": "minecraft:porkchop"
+  "ingredients": [
+    {
+      "item": "minecraft:porkchop"
+    }
+  ],
+  "result": {
+    "item": "barbequesdelight:pork_sausage_skewer"
   },
-  "result": "barbequesdelight:pork_sausage_skewer",
   "count": 1
 }

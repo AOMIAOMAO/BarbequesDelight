@@ -11,22 +11,22 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public class BarbecuingRecipe implements Recipe<Inventory> {
+public class GrillingRecipe implements Recipe<Inventory> {
 
     protected final Ingredient ingredient;
     protected final ItemStack output;
     protected final Identifier id;
-    protected final int barbecuingTime;
+    protected final int grillingtime;
 
-    public BarbecuingRecipe(Ingredient ingredient, ItemStack output, Identifier id, int barbecuingTime) {
+    public GrillingRecipe(Ingredient ingredient, ItemStack output, Identifier id, int grillingtime) {
         this.ingredient = ingredient;
         this.output = output;
         this.id = id;
-        this.barbecuingTime = barbecuingTime;
+        this.grillingtime = grillingtime;
     }
 
-    public int getBarbecuingTime() {
-        return barbecuingTime;
+    public int getGrillingtime() {
+        return grillingtime;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class BarbecuingRecipe implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return BarbecuingRecipeSerializer.INSTANCE;
+        return GrillingRecipeSerializer.INSTANCE;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class BarbecuingRecipe implements Recipe<Inventory> {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<BarbecuingRecipe> {
+    public static class Type implements RecipeType<GrillingRecipe> {
         public static final Type INSTANCE = new Type();
     }
 }

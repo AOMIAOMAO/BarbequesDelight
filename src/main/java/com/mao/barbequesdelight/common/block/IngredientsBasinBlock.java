@@ -43,14 +43,14 @@ public class IngredientsBasinBlock extends BlockWithEntity {
                 ItemStack stack = player.getStackInHand(hand);
 
                 if (itemInBasin.isEmpty() && !stack.isEmpty()) {
-                    if (!basin.skewer(player, slot)) {
+                    if (!basin.skewer(player, slot, hand)) {
                         basin.setStack(slot, stack.split(stack.getCount()));
                         basin.inventoryChanged();
                         world.playSound(null, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
                         return ActionResult.success(world.isClient());
                     }
                     world.playSound(null, pos, SoundEvents.ITEM_BUNDLE_INSERT, SoundCategory.PLAYERS, 1.0f, 1.0f);
-                } else if (basin.skewer(player, slot)) {
+                } else if (basin.skewer(player, slot, hand)) {
                     world.playSound(null, pos, SoundEvents.ITEM_BUNDLE_INSERT, SoundCategory.PLAYERS, 1.0f, 1.0f);
                 } else {
                     world.playSound(null, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);

@@ -20,10 +20,10 @@ public class BBQDItems {
     public static final Item PEPPER_POWDER = register("pepper_powder", new SeasoningItem(BBQDSeasoning.PEPPER));
     public static final Item CHILLI_POWDER = register("chilli_powder", new SeasoningItem(BBQDSeasoning.CHILLI));
 
-    public static final Item BURNT_FOOD = register("burnt_food", new ConsumableItem(new Item.Settings().food(BBQDFoods.BURNT_FOOD), true));
     public static final Item KEBAB_WRAP = register("kebab_wrap", new ConsumableItem(new Item.Settings().food(BBQDFoods.SKEWER_WRAP), true));
     public static final Item KEBAB_SANDWICH = register("kebab_sandwich", new Item(new Item.Settings().food(BBQDFoods.SKEWER_SANDWICH)));
     public static final Item BIBIMBAP = register("bibimbap", new ConsumableItem(ModItems.bowlFoodItem(BBQDFoods.BIBIMBAP), true));
+    public static final Item BURNT_FOOD = register("burnt_food", new ConsumableItem(new Item.Settings().food(BBQDFoods.BURNT_FOOD), true));
 
     public static final Item COD_SKEWER = register("cod_skewer", rawSkewerItem());
     public static final Item SALMON_SKEWER = register("salmon_skewer", rawSkewerItem());
@@ -33,6 +33,7 @@ public class BBQDItems {
     public static final Item RABBIT_SKEWER = register("rabbit_skewer", rawSkewerItem());
     public static final Item PORK_SAUSAGE_SKEWER = register("pork_sausage_skewer", rawSkewerItem());
     public static final Item POTATO_SKEWER = register("potato_skewer", rawSkewerItem());
+    public static final Item FRUIT_AND_VEGETABLE_SKEWER = register("fruit_and_vegetable_skewer", rawSkewerItem());
 
     public static final Item GRILLED_COD_SKEWER = register("grilled_cod_skewer", grilledSkewerItem(BBQDFoods.GRILLED_COD_SKEWER, false));
     public static final Item GRILLED_SALMON_SKEWER = register("grilled_salmon_skewer", grilledSkewerItem(BBQDFoods.GRILLED_SALMON_SKEWER, false));
@@ -42,6 +43,7 @@ public class BBQDItems {
     public static final Item GRILLED_RABBIT_SKEWER = register("grilled_rabbit_skewer", grilledSkewerItem(BBQDFoods.GRILLED_RABBIT_SKEWER, true));
     public static final Item GRILLED_PORK_SAUSAGE_SKEWER = register("grilled_pork_sausage_skewer", grilledSkewerItem(BBQDFoods.GRILLED_PORK_SAUSAGE_SKEWER, true));
     public static final Item GRILLED_POTATO_SKEWER = register("grilled_potato_skewer", grilledSkewerItem(BBQDFoods.GRILLED_POTATO_SKEWER, true));
+    public static final Item GRILLED_FRUIT_AND_VEGETABLE_SKEWER = register("grilled_fruit_and_vegetable_skewer", grilledSkewerItem(BBQDFoods.GRILLED_FRUIT_AND_VEGETABLE_SKEWER, true));
 
     private static Item register(String id, Item item){
         Item i =  Items.register(BarbequesDelight.asID(id), item);

@@ -1,8 +1,12 @@
 {
   "type": "barbequesdelight:skewering",
-  "ingredient": {
-    "item": "farmersdelight:mutton_chops"
+  "ingredients": [
+    {
+      "item": "farmersdelight:mutton_chops"
+    }
+  ],
+  "result": {
+    "item": "barbequesdelight:lamb_skewer"
   },
-  "result": "barbequesdelight:lamb_skewer",
   "count": 4
 }

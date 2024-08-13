@@ -1,18 +1,16 @@
 package com.mao.barbequesdelight.common.recipe;
 
-import com.google.gson.JsonElement;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-import net.minecraft.item.Item;
+import com.google.gson.JsonParseException;
+import io.github.fabricators_of_create.porting_lib.util.CraftingHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-
-import static net.minecraft.recipe.ShapedRecipe.outputFromJson;
+import net.minecraft.util.collection.DefaultedList;
 
 public class SkeweringRecipeSerializer implements RecipeSerializer<SkeweringRecipe> {
 
@@ -20,54 +18,55 @@ public class SkeweringRecipeSerializer implements RecipeSerializer<SkeweringReci
 
     @Override
     public SkeweringRecipe read(Identifier id, JsonObject json) {
-        Ingredient ingredient = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
-
-        ItemStack output;
-        JsonElement element = json.get("result");
-        if (element.isJsonObject())
-            output = outputFromJson((JsonObject) element);
-        else {
-            String string = element.getAsString();
-            Item item = Registries.ITEM.getOrEmpty(new Identifier(string)).orElseThrow(() -> new JsonSyntaxException("Unknown item '" + string + "'"));
-            output = new ItemStack(item);
-        }
-
-        ItemStack tool = ItemStack.EMPTY;
-        if (JsonHelper.hasElement(json, "tool")) {
-            JsonObject jsonContainer = JsonHelper.getObject(json, "tool");
-            tool = new ItemStack(JsonHelper.getItem(jsonContainer, "item"), JsonHelper.getInt(jsonContainer, "count", 1));
-        }
-
-        ItemStack sideDishes;
-        if (JsonHelper.hasElement(json, "sidedishes")) {
-            JsonObject jsonContainer = JsonHelper.getObject(json, "sidedishes");
-            sideDishes = new ItemStack(JsonHelper.getItem(jsonContainer, "item"), JsonHelper.getInt(jsonContainer, "count", 1));
+        final DefaultedList<Ingredient> inputItemsIn = readIngredients(JsonHelper.getArray(json, "ingredients"));
+        if (inputItemsIn.isEmpty()) {
+            throw new JsonParseException("No ingredients for skewering recipe");
+        } else if (inputItemsIn.size() > 2) {
+            throw new JsonParseException("Too many ingredients for skewering recipe! The max is " + 2);
         }else {
-            sideDishes = ItemStack.EMPTY;
+            final ItemStack output = CraftingHelper.getItemStack(JsonHelper.getObject(json, "result"), true);
+            ItemStack tool = JsonHelper.hasElement(json, "container") ? CraftingHelper.getItemStack(JsonHelper.getObject(json, "container"), true) : ItemStack.EMPTY;
+            final int ingredientCount = JsonHelper.getInt(json, "count", 2);
+            return new SkeweringRecipe(id, inputItemsIn, tool, output, ingredientCount);
         }
-
-        int ingredientCount = json.get("count").getAsInt();
-
-        return new SkeweringRecipe(id, ingredient, tool, output, sideDishes, ingredientCount);
     }
 
     @Override
     public SkeweringRecipe read(Identifier id, PacketByteBuf buf) {
-        Ingredient ingredient = Ingredient.fromPacket(buf);
+        int i = buf.readVarInt();
+        DefaultedList<Ingredient> inputItemsIn = DefaultedList.ofSize(i, Ingredient.EMPTY);
+
+        for (int j = 0; j < inputItemsIn.size(); ++j) {
+            inputItemsIn.set(j, Ingredient.fromPacket(buf));
+        }
         ItemStack output = buf.readItemStack();
         ItemStack tool = buf.readItemStack();
-        ItemStack sideDishes = buf.readItemStack();
-        int count =buf.readInt();
+        int count = buf.readInt();
 
-        return new SkeweringRecipe(id, ingredient, tool, output, sideDishes, count);
+        return new SkeweringRecipe(id, inputItemsIn, tool, output, count);
     }
 
     @Override
     public void write(PacketByteBuf buf, SkeweringRecipe recipe) {
-        recipe.ingredient.write(buf);
+        buf.writeVarInt(recipe.getIngredients().size());
+        for (Ingredient ingredient : recipe.getIngredients()) {
+            ingredient.write(buf);
+        }
         buf.writeItemStack(recipe.getOutput(null));
         buf.writeItemStack(recipe.getTool());
-        buf.writeItemStack(recipe.getSideDishes());
         buf.writeInt(recipe.getIngredientCount());
+    }
+
+    private static DefaultedList<Ingredient> readIngredients(JsonArray ingredientArray) {
+        DefaultedList<Ingredient> ingredients = DefaultedList.of();
+
+        for (int i = 0; i < ingredientArray.size(); ++i) {
+            Ingredient ingredient = Ingredient.fromJson(ingredientArray.get(i));
+            if (!ingredient.isEmpty()) {
+                ingredients.add(ingredient);
+            }
+        }
+
+        return ingredients;
     }
 }

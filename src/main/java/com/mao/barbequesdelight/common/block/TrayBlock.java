@@ -45,9 +45,8 @@ public class TrayBlock extends BlockWithEntity {
                         tray.setStack(i, stack.split(stack.getCount()));
                         return ActionResult.success(world.isClient());
                     }
-                    if (ItemStack.canCombine(stack, stack1)){
-                        int count = stack1.getCount()>=64 ? 0 : 1;
-                        stack1.setCount(stack1.getCount() + stack.split(count).getCount());
+                    if (ItemStack.areItemsEqual(stack, stack1) && stack1.getCount() < stack1.getMaxCount()){
+                        stack1.setCount(stack1.getCount() + stack.split(1).getCount());
                         return ActionResult.success(world.isClient());
                     }
                 }

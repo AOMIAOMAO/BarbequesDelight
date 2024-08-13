@@ -52,12 +52,19 @@ public class TrayRenderer implements BlockEntityRenderer<TrayBlockEntity> {
     }
 
     private int getModelCount(ItemStack stack){
-        if(stack.getCount() >= 64){
-            return 4;
-        } else if (stack.getCount() >=48) {
-            return 3;
-        }else{
-            return stack.getCount() >=32 ? 2 : 1;
+        int maxCount = stack.getMaxCount();
+        int count = stack.getCount();
+
+        if (maxCount == 64) {
+            if (count >= 64) return 4;
+            else if (count >= 48) return 3;
+            else if (count >= 32) return 2;
+            else return 1;
+        } else {
+            if (count >= 16) return 4;
+            else if (count >= 12) return 3;
+            else if (count >= 6) return 2;
+            else return 1;
         }
     }
 }

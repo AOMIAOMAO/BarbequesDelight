@@ -35,6 +35,17 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        // Shedaniel's maven (Architectury API)
+        url = "https://maven.architectury.dev"
+        content {
+            includeGroup "dev.architectury"
+        }
+    }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
 }
 
 dependencies {
@@ -49,6 +60,10 @@ dependencies {
         exclude(group: "net.fabricmc")
     }
     modImplementation "curse.maven:jade-324717:${jade_version}"
+
+    modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
+    //modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
+
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 }
@@ -110,4 +125,8 @@ publishing {
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
     }
+}
+
+tasks.named("runClient", JavaExec) {
+    jvmArgs("-javaagent:C:\\Users\\MI\\.gradle\\caches\\modules-2\\files-2.1\\net.fabricmc\\sponge-mixin\\0.13.3+mixin.0.8.5\\9527e6b0d2449408958fd1302594dc65ec5ade9c\\sponge-mixin-0.13.3+mixin.0.8.5.jar")
 }

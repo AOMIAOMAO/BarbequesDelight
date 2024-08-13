@@ -1,8 +1,8 @@
 package com.mao.barbequesdelight.registry;
 
 import com.mao.barbequesdelight.BarbequesDelight;
-import com.mao.barbequesdelight.common.recipe.BarbecuingRecipe;
-import com.mao.barbequesdelight.common.recipe.BarbecuingRecipeSerializer;
+import com.mao.barbequesdelight.common.recipe.GrillingRecipe;
+import com.mao.barbequesdelight.common.recipe.GrillingRecipeSerializer;
 import com.mao.barbequesdelight.common.recipe.SkeweringRecipe;
 import com.mao.barbequesdelight.common.recipe.SkeweringRecipeSerializer;
 import net.minecraft.recipe.RecipeSerializer;
@@ -18,7 +18,7 @@ public class BBQDRecipes {
     }
 
     public static void registerBBQDRecipes() {
-        recipe(BarbecuingRecipeSerializer.INSTANCE, BarbecuingRecipe.Type.INSTANCE, "barbecuing");
+        recipe(GrillingRecipeSerializer.INSTANCE, GrillingRecipe.Type.INSTANCE, "grilling");
         recipe(SkeweringRecipeSerializer.INSTANCE, SkeweringRecipe.Type.INSTANCE, "skewering");
     }
 }

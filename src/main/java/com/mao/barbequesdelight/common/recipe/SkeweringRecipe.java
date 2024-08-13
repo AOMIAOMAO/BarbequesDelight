@@ -2,10 +2,7 @@ package com.mao.barbequesdelight.common.recipe;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -13,17 +10,15 @@ import net.minecraft.world.World;
 
 public class SkeweringRecipe implements Recipe<Inventory> {
 
-    protected final Identifier id;
-    protected final Ingredient ingredient;
-    protected final ItemStack tool;
-    protected final ItemStack sideDishes;
-    protected final ItemStack result;
-    protected final int ingredientCount;
+    private final Identifier id;
+    private final DefaultedList<Ingredient> ingredients;
+    private final ItemStack tool;
+    private final ItemStack result;
+    private final int ingredientCount;
 
-    public SkeweringRecipe(Identifier id, Ingredient ingredient, ItemStack tool, ItemStack result, ItemStack sideDishes, int ingredientCount) {
+    public SkeweringRecipe(Identifier id, DefaultedList<Ingredient> ingredients, ItemStack tool, ItemStack result, int ingredientCount) {
         this.id = id;
-        this.ingredient = ingredient;
-        this.sideDishes = sideDishes;
+        this.ingredients = ingredients;
 
         if (!tool.isEmpty()) {
             this.tool = tool;
@@ -41,28 +36,41 @@ public class SkeweringRecipe implements Recipe<Inventory> {
         return tool;
     }
 
-    public ItemStack getSideDishes() {
-        return sideDishes;
-    }
-
     public int getIngredientCount() {
         return ingredientCount;
     }
 
     @Override
     public DefaultedList<Ingredient> getIngredients() {
-        DefaultedList<Ingredient> list = DefaultedList.of();
-        list.add(ingredient);
-        return list;
+        return this.ingredients;
     }
 
     @Override
     public boolean matches(Inventory inventory, World world) {
-        return ingredient.test(inventory.getStack(0)) && inventory.getStack(0).getCount() >= getIngredientCount();
+        RecipeMatcher stackedContents = new RecipeMatcher();
+        int i = 0;
+
+        for (int j = 0; j < 2; ++j) {
+            ItemStack itemstack = inventory.getStack(j);
+            if (!itemstack.isEmpty()) {
+                ++i;
+                stackedContents.addInput(itemstack, 1);
+            }
+        }
+        return i == this.ingredients.size() && stackedContents.match(this, null) && ItemStack.areItemsEqual(tool, inventory.getStack(2));
     }
 
     @Override
     public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+        inventory.getStack(2).decrement(1);
+
+        for (int j = 0; j < inventory.size()-1; ++j) {
+            ItemStack itemstack = inventory.getStack(j);
+            if (!itemstack.isEmpty()) {
+                itemstack.decrement(getIngredientCount());
+            }
+        }
+
         return this.getOutput(registryManager).copy();
     }
 

@@ -1,12 +1,15 @@
 {
   "type": "barbequesdelight:skewering",
-  "ingredient": {
-    "item": "farmersdelight:salmon_slice"
+  "ingredients": [
+    {
+      "item": "farmersdelight:salmon_slice"
+    },
+    {
+      "tag":"c:crops/tomato"
+    }
+  ],
+  "result": {
+    "item": "barbequesdelight:salmon_skewer"
   },
-  "sidedishes": {
-    "item":"farmersdelight:tomato",
-    "count": 2
-  },
-  "result": "barbequesdelight:salmon_skewer",
   "count": 2
 }

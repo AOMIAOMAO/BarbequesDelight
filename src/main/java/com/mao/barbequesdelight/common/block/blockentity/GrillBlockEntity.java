@@ -1,6 +1,6 @@
 package com.mao.barbequesdelight.common.block.blockentity;
 
-import com.mao.barbequesdelight.common.recipe.BarbecuingRecipe;
+import com.mao.barbequesdelight.common.recipe.GrillingRecipe;
 import com.mao.barbequesdelight.registry.BBQDEntityTypes;
 import com.mao.barbequesdelight.registry.BBQDItems;
 import net.minecraft.block.Block;
@@ -34,26 +34,27 @@ import java.util.Optional;
 public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, HeatableBlockEntity {
 
     protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    public final int[] barbecuingTimes;
-    protected final int[] barbecuingTimesTotal;
+    public final int[] grillingTimes;
+    protected final int[] grillingTimesTotal;
     public final boolean[] flipped;
     public final boolean[] burnt;
 
     public GrillBlockEntity(BlockPos pos, BlockState state) {
         super(BBQDEntityTypes.GRILL, pos, state);
-        this.barbecuingTimes = new int[2];
-        this.barbecuingTimesTotal = new int[2];
+        this.grillingTimes = new int[2];
+        this.grillingTimesTotal = new int[2];
         this.burnt = new boolean[2];
         this.flipped = new boolean[2];
     }
 
     public void setBarbecuing(int i, int time){
-        this.barbecuingTimes[i] = 0;
-        this.barbecuingTimesTotal[i] = time;
+        this.grillingTimes[i] = 0;
+        this.grillingTimesTotal[i] = time;
         this.flipped[i] = false;
         this.setBurnt(i, false);
         this.writeFlipped(new NbtCompound());
         this.writeBurnt(new NbtCompound());
+        inventoryChanged();
     }
 
     protected void barbecuing(){
@@ -61,13 +62,13 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         for (int i = 0; i < items.size(); ++i) {
             ItemStack stack = items.get(i);
             if (!stack.isEmpty()){
-                ++barbecuingTimes[i];
-                if (barbecuingTimes[i] == barbecuingTimesTotal[i]){
+                ++grillingTimes[i];
+                if (grillingTimes[i] == grillingTimesTotal[i]){
                     if (world != null){
                         Inventory inventory = new SimpleInventory(stack);
 
                         ItemStack campfire = world.getRecipeManager().getAllMatches(RecipeType.CAMPFIRE_COOKING, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(stack);
-                        ItemStack result = world.getRecipeManager().getAllMatches(BarbecuingRecipe.Type.INSTANCE, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(campfire);
+                        ItemStack result = world.getRecipeManager().getAllMatches(GrillingRecipe.Type.INSTANCE, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(campfire);
                         if (getFlipped(i)){
                             this.setStack(i, result);
                         }else {
@@ -78,7 +79,7 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
 
                         flag = true;
                     }
-                } else if (barbecuingTimes[i] >=( barbecuingTimesTotal[i] * 2) && !getBurnt(i)) {
+                } else if (grillingTimes[i] >=( grillingTimesTotal[i] * 2) && !getBurnt(i)) {
                     this.setStack(i, BBQDItems.BURNT_FOOD.getDefaultStack());
                     setBurnt(i, true);
                     this.writeBurnt(new NbtCompound());
@@ -94,9 +95,9 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
     private void fadeBarbecuing() {
         boolean flag = false;
         for (int i = 0; i < items.size(); ++i) {
-            if (barbecuingTimes[i] > 0) {
+            if (grillingTimes[i] > 0) {
                 flag = true;
-                barbecuingTimes[i] = MathHelper.clamp(barbecuingTimes[i] - 2, 0, barbecuingTimesTotal[i]);
+                grillingTimes[i] = MathHelper.clamp(grillingTimes[i] - 2, 0, grillingTimesTotal[i]);
             }
         }
         if (flag){
@@ -107,17 +108,17 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
     public boolean flip(int i){
         if (canFlip(i)){
             setFlipped(i, true);
-            this.barbecuingTimes[i] = (this.barbecuingTimesTotal[i] / 2);
-            this.inventoryChanged();
+            this.grillingTimes[i] = (this.grillingTimesTotal[i] / 2);
             sendUpdatePacket(this);
             this.writeFlipped(new NbtCompound());
+            inventoryChanged();
             return true;
         }
         return false;
     }
 
     public boolean canFlip(int i){
-        return isBarbecuing() && !getFlipped(i) && !getBurnt(i) && barbecuingTimes[i] >= (barbecuingTimesTotal[i] /2);
+        return isBarbecuing() && !getFlipped(i) && !getBurnt(i) && grillingTimes[i] >= (grillingTimesTotal[i] /2);
     }
 
     public void setFlipped(int i, boolean flipped){
@@ -166,8 +167,8 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         return world != null && isHeated() && !getStack(getStack(0).isEmpty() ? 1 : 0).isEmpty();
     }
 
-    public Optional<BarbecuingRecipe> findMatchingRecipe(ItemStack itemStack) {
-        return this.world != null && this.items.stream().anyMatch(ItemStack::isEmpty) ? this.world.getRecipeManager().getFirstMatch(BarbecuingRecipe.Type.INSTANCE, new SimpleInventory(itemStack), this.world) : Optional.empty();
+    public Optional<GrillingRecipe> findMatchingRecipe(ItemStack itemStack) {
+        return this.world != null && this.items.stream().anyMatch(ItemStack::isEmpty) ? this.world.getRecipeManager().getFirstMatch(GrillingRecipe.Type.INSTANCE, new SimpleInventory(itemStack), this.world) : Optional.empty();
     }
 
     public Optional<CampfireCookingRecipe> findMatchingCampfireRecipe(ItemStack itemStack) {
@@ -193,7 +194,7 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         if (world == null) return;
 
         for (int i = 0; i < items.size(); ++i) {
-            barbecuingTimes[i]++;
+            grillingTimes[i]++;
             if (!items.get(i).isEmpty()) {
                 Vec2f grillItemOffset = getGrillItemOffset(i);
                 Direction direction = getCachedState().get(HorizontalFacingBlock.FACING);
@@ -253,8 +254,8 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         Inventories.writeNbt(nbt, items, true);
         this.writeBurnt(nbt);
         this.writeFlipped(nbt);
-        nbt.putIntArray("barbecuingTimes", this.barbecuingTimes);
-        nbt.putIntArray("barbecuingTimesTotal", this.barbecuingTimesTotal);
+        nbt.putIntArray("grillingTimes", this.grillingTimes);
+        nbt.putIntArray("grillingTimesTotal", this.grillingTimesTotal);
     }
 
     @Override
@@ -276,13 +277,13 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
             }
         }
 
-        if (nbt.contains("barbecuingTimes", NbtElement.INT_ARRAY_TYPE)) {
-            int[] arrayCookingTimes = nbt.getIntArray("barbecuingTimes");
-            System.arraycopy(arrayCookingTimes, 0, barbecuingTimes, 0, Math.min(barbecuingTimesTotal.length, arrayCookingTimes.length));
+        if (nbt.contains("grillingTimes", NbtElement.INT_ARRAY_TYPE)) {
+            int[] arrayCookingTimes = nbt.getIntArray("grillingTimes");
+            System.arraycopy(arrayCookingTimes, 0, grillingTimes, 0, Math.min(grillingTimesTotal.length, arrayCookingTimes.length));
         }
-        if (nbt.contains("barbecuingTimesTotal", NbtElement.INT_ARRAY_TYPE)) {
-            int[] arrayCookingTimesTotal = nbt.getIntArray("barbecuingTimesTotal");
-            System.arraycopy(arrayCookingTimesTotal, 0, barbecuingTimesTotal, 0, Math.min(barbecuingTimesTotal.length, arrayCookingTimesTotal.length));
+        if (nbt.contains("grillingTimesTotal", NbtElement.INT_ARRAY_TYPE)) {
+            int[] arrayCookingTimesTotal = nbt.getIntArray("grillingTimesTotal");
+            System.arraycopy(arrayCookingTimesTotal, 0, grillingTimesTotal, 0, Math.min(grillingTimesTotal.length, arrayCookingTimesTotal.length));
         }
 
     }

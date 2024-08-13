@@ -13,21 +13,15 @@ public class SkeweringDisplay extends BasicDisplay {
 
     private final int count;
     private final EntryIngredient tool;
-    private final EntryIngredient sideDishes;
 
     public SkeweringDisplay(SkeweringRecipe recipe) {
         super(EntryIngredients.ofIngredients(recipe.getIngredients()), Collections.singletonList(EntryIngredients.of(recipe.getOutput(null))));
         this.count = recipe.getIngredientCount();
         this.tool = EntryIngredients.of(recipe.getTool());
-        this.sideDishes = EntryIngredients.of(recipe.getSideDishes());
     }
 
     public int getCount() {
         return count;
-    }
-
-    public EntryIngredient getSideDishes() {
-        return sideDishes;
     }
 
     public EntryIngredient getTool() {

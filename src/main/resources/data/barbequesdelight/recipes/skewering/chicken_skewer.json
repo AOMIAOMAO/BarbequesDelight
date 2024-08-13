@@ -1,12 +1,15 @@
 {
   "type": "barbequesdelight:skewering",
-  "ingredient": {
-    "item": "farmersdelight:chicken_cuts"
+  "ingredients": [
+    {
+      "item": "farmersdelight:chicken_cuts"
+    },
+    {
+      "tag":"c:crops/onion"
+    }
+  ],
+  "result": {
+    "item": "barbequesdelight:chicken_skewer"
   },
-  "sidedishes": {
-    "item":"farmersdelight:onion",
-    "count": 2
-  },
-  "result": "barbequesdelight:chicken_skewer",
   "count": 2
 }

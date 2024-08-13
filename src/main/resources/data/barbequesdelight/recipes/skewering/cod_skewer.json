@@ -1,12 +1,15 @@
 {
   "type": "barbequesdelight:skewering",
-  "ingredient": {
+  "ingredients": [
+      {
     "item": "farmersdelight:cod_slice"
+      },
+     {
+    "tag":"c:crops/tomato"
+     }
+  ],
+  "result": {
+    "item": "barbequesdelight:cod_skewer"
   },
-  "sidedishes": {
-    "item":"farmersdelight:tomato",
-    "count": 2
-  },
-  "result": "barbequesdelight:cod_skewer",
   "count": 2
 }

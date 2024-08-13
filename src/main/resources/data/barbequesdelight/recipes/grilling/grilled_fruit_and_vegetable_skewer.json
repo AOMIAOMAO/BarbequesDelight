@@ -1,0 +1,8 @@
+{
+  "type": "barbequesdelight:grilling",
+  "ingredient": {
+    "item": "barbequesdelight:fruit_and_vegetable_skewer"
+  },
+  "result": "barbequesdelight:grilled_fruit_and_vegetable_skewer",
+  "grillingtime": 320
+}

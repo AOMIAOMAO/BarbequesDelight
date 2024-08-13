@@ -1,12 +1,15 @@
 {
   "type": "barbequesdelight:skewering",
-  "ingredient": {
+  "ingredients": [
+    {
     "item": "minecraft:rabbit"
+    },
+    {
+    "item":"farmersdelight:cabbage_leaf"
+    }
+  ],
+  "result": {
+    "item": "barbequesdelight:rabbit_skewer"
   },
-  "sidedishes": {
-    "item":"farmersdelight:cabbage_leaf",
-    "count": 2
-  },
-  "result": "barbequesdelight:rabbit_skewer",
   "count": 2
 }

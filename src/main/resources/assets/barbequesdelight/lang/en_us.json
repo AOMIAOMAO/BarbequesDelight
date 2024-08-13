@@ -26,6 +26,8 @@
   "item.barbequesdelight.grilled_potato_skewer": "Grilled Potato Skewer",
   "item.barbequesdelight.beef_skewer": "Raw Beef Skewer",
   "item.barbequesdelight.grilled_beef_skewer": "Grilled Beef Skewer",
+  "item.barbequesdelight.fruit_and_vegetable_skewer": "Fruit And Vegetable Skewer",
+  "item.barbequesdelight.grilled_fruit_and_vegetable_skewer": "Grilled Fruit And Vegetable Skewer",
 
   "item.barbequesdelight.chilli.tooltip": "Deals damage and increases hunger",
   "item.barbequesdelight.pepper.tooltip": "Shortened consumption time",
@@ -36,8 +38,12 @@
   "item.barbequesdelight.flavor.cumin": "Aromatic",
   "item.barbequesdelight.flavor.pepper": "Peppery",
 
-  "barbequesdelight.rei.barbecuing": "Barbecuing",
+  "barbequesdelight.emi.grilling": "%s s",
+  "emi.category.barbequesdelight.grilling": "Grilling",
+  "emi.category.barbequesdelight.skewering": "Skewering",
+  "barbequesdelight.rei.grilling": "Grilling",
   "barbequesdelight.rei.skewering": "Skewering",
+  "barbequesdelight.rei.count": "Count: %s",
 
   "block.barbequesdelight.grill": "Grill",
   "block.barbequesdelight.ingredients_basin": "Ingredients Basin",

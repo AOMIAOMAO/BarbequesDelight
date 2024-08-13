@@ -1,12 +1,15 @@
 {
   "type": "barbequesdelight:skewering",
-  "ingredient": {
+  "ingredients": [
+    {
     "item": "minecraft:potato"
+    },
+    {
+    "item":"farmersdelight:bacon"
+    }
+  ],
+  "result": {
+    "item": "barbequesdelight:potato_skewer"
   },
-  "sidedishes": {
-    "item":"farmersdelight:bacon",
-    "count": 2
-  },
-  "result": "barbequesdelight:potato_skewer",
   "count": 2
 }

@@ -19,6 +19,9 @@
     "rei_client": [
       "com.mao.barbequesdelight.integration.rei.BBQDREIPlugin"
     ],
+    "emi": [
+      "com.mao.barbequesdelight.integration.emi.BBQDEmiPlugin"
+    ],
     "jade": [
       "com.mao.barbequesdelight.integration.jade.BBQDJadePlugin"
     ],

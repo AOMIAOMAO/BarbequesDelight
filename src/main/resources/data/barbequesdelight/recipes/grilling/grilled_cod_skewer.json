@@ -1,8 +1,8 @@
 {
-  "type": "barbequesdelight:barbecuing",
+  "type": "barbequesdelight:grilling",
   "ingredient": {
     "item": "barbequesdelight:cod_skewer"
   },
   "result": "barbequesdelight:grilled_cod_skewer",
-  "barbecuingtime": 360
+  "grillingtime": 360
 }

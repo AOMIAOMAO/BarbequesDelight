@@ -22,8 +22,8 @@ public class GrillBlockTipProvider implements IServerExtensionProvider<Object, I
     public List<ClientViewGroup<ItemView>> getClientGroups(Accessor<?> accessor, List<ViewGroup<ItemStack>> list) {
         return ClientViewGroup.map(list, (stack) -> {
             String text = null;
-            if (stack.getNbt() != null && stack.getNbt().contains("barbecuing")) {
-                text = IThemeHelper.get().seconds(stack.getNbt().getInt("barbecuing")).getString();
+            if (stack.getNbt() != null && stack.getNbt().contains("grilling")) {
+                text = IThemeHelper.get().seconds(stack.getNbt().getInt("grilling")).getString();
             }
             return new ItemView(stack, text);
         }, null);
@@ -34,11 +34,11 @@ public class GrillBlockTipProvider implements IServerExtensionProvider<Object, I
         if (o instanceof GrillBlockEntity grill) {
             List<ItemStack> list = Lists.newArrayList();
 
-            for(int i = 0; i < grill.barbecuingTimes.length; ++i) {
+            for(int i = 0; i < grill.grillingTimes.length; ++i) {
                 ItemStack stack = grill.getStack(i);
                 if (!stack.isEmpty()) {
                     stack = stack.copy();
-                    stack.getOrCreateNbt().putInt("barbecuing", grill.barbecuingTimes[i]);
+                    stack.getOrCreateNbt().putInt("grilling", grill.grillingTimes[i]);
                     list.add(stack);
                 }
             }

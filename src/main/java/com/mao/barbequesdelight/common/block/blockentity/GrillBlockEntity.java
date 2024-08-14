@@ -32,28 +32,25 @@ import java.util.List;
 import java.util.Optional;
 
 public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, HeatableBlockEntity {
-
     protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
     public final int[] grillingTimes;
     protected final int[] grillingTimesTotal;
     public final boolean[] flipped;
-    public final boolean[] burnt;
+
+    private static final String TAG_KEY_COOKING_TOTAL_TIMES = "CookingTimes";
+    private static final String TAG_KEY_COOKING_TIMES = "CookingTotalTimes";
 
     public GrillBlockEntity(BlockPos pos, BlockState state) {
         super(BBQDEntityTypes.GRILL, pos, state);
         this.grillingTimes = new int[2];
         this.grillingTimesTotal = new int[2];
-        this.burnt = new boolean[2];
         this.flipped = new boolean[2];
     }
 
     public void setBarbecuing(int i, int time){
         this.grillingTimes[i] = 0;
         this.grillingTimesTotal[i] = time;
-        this.flipped[i] = false;
-        this.setBurnt(i, false);
-        this.writeFlipped(new NbtCompound());
-        this.writeBurnt(new NbtCompound());
+        this.setFlipped(i, false);
         inventoryChanged();
     }
 
@@ -69,20 +66,12 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
 
                         ItemStack campfire = world.getRecipeManager().getAllMatches(RecipeType.CAMPFIRE_COOKING, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(stack);
                         ItemStack result = world.getRecipeManager().getAllMatches(GrillingRecipe.Type.INSTANCE, inventory, world).stream().map(recipe -> recipe.craft(inventory, world.getRegistryManager())).findAny().orElse(campfire);
-                        if (getFlipped(i)){
-                            this.setStack(i, result);
-                        }else {
-                            this.setStack(i, BBQDItems.BURNT_FOOD.getDefaultStack());
-                            setBurnt(i, true);
-                            this.writeBurnt(new NbtCompound());
-                        }
 
+                        this.setStack(i, getFlipped(i) ? result : BBQDItems.BURNT_FOOD.getDefaultStack());
                         flag = true;
                     }
-                } else if (grillingTimes[i] >=( grillingTimesTotal[i] * 2) && !getBurnt(i)) {
+                } else if (grillingTimes[i] == ( grillingTimesTotal[i] * 2)) {
                     this.setStack(i, BBQDItems.BURNT_FOOD.getDefaultStack());
-                    setBurnt(i, true);
-                    this.writeBurnt(new NbtCompound());
                     flag = true;
                 }
             }
@@ -109,32 +98,24 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         if (canFlip(i)){
             setFlipped(i, true);
             this.grillingTimes[i] = (this.grillingTimesTotal[i] / 2);
-            sendUpdatePacket(this);
-            this.writeFlipped(new NbtCompound());
-            inventoryChanged();
             return true;
         }
         return false;
     }
 
-    public boolean canFlip(int i){
-        return isBarbecuing() && !getFlipped(i) && !getBurnt(i) && grillingTimes[i] >= (grillingTimesTotal[i] /2);
-    }
-
     public void setFlipped(int i, boolean flipped){
         this.flipped[i] = flipped;
+        inventoryChanged();
+        writeFlipped(new NbtCompound());
+        sendUpdatePacket(this);
     }
 
     public boolean getFlipped(int i) {
         return flipped[i];
     }
 
-    public boolean getBurnt(int i) {
-        return burnt[i];
-    }
-
-    public void setBurnt(int i, boolean burnt){
-        this.burnt[i] = burnt;
+    public boolean canFlip(int i){
+        return isBarbecuing() && grillingTimes[i] >= (grillingTimesTotal[i] / 2) && !getFlipped(i) && !world.isClient();
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, GrillBlockEntity grill) {
@@ -184,7 +165,7 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
     }
 
     public void inventoryChanged() {
-        this.markDirty();
+        markDirty();
         if (world != null) {
             world.updateListeners(getPos(), getCachedState(), getCachedState(), Block.NOTIFY_ALL);
         }
@@ -204,10 +185,9 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
                 double x = ((double) pos.getX() + 0.5D) - (direction.getOffsetX() * offset.x) + (direction.rotateYClockwise().getOffsetX() * offset.x);
                 double y = (double) pos.getY() + 1.0D;
                 double z = ((double) pos.getZ() + 0.5D) - (direction.getOffsetZ() * offset.y) + (direction.rotateYClockwise().getOffsetZ() * offset.y);
-                for (int k = 0; k < (canFlip(i) ? 4 : 1); ++k) {
-                   if (world.random.nextFloat() < 0.2f){
-                        world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 5.0E-4D, 0.0D);
-                    }
+
+                if (world.random.nextFloat() < 0.2f) {
+                    world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 5.0E-4D, 0.0D);
                 }
             }
         }
@@ -220,15 +200,15 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
 
     //NBT And Server
 
-    public static void sendUpdatePacket(BlockEntity entity) {
-        Packet<ClientPlayPacketListener> packet = entity.toUpdatePacket();
-        if(packet != null) {
-            sendUpdatePacket(entity.getWorld(), entity.getPos(), packet);
+    public static void sendUpdatePacket(BlockEntity blockEntity) {
+        Packet<ClientPlayPacketListener> packet = blockEntity.toUpdatePacket();
+        if (packet != null) {
+            sendUpdatePacket(blockEntity.getWorld(), blockEntity.getPos(), packet);
         }
     }
 
-    private static void sendUpdatePacket(World world, BlockPos pos, Packet<ClientPlayPacketListener> packet) {
-        if(world instanceof ServerWorld server) {
+    private static void sendUpdatePacket(World level, BlockPos pos, Packet<ClientPlayPacketListener> packet) {
+        if (level instanceof ServerWorld server) {
             List<ServerPlayerEntity> players = server.getChunkManager().threadedAnvilChunkStorage.getPlayersWatchingChunk(new ChunkPos(pos), false);
             players.forEach(player -> player.networkHandler.sendPacket(packet));
         }
@@ -242,9 +222,8 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
     @Override
     public NbtCompound toInitialChunkDataNbt() {
         NbtCompound nbtCompound = new NbtCompound();
-        this.writeBurnt(nbtCompound);
-        this.writeFlipped(nbtCompound);
         Inventories.writeNbt(nbtCompound, this.items, true);
+        this.writeFlipped(nbtCompound);
         return nbtCompound;
     }
 
@@ -252,10 +231,9 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, items, true);
-        this.writeBurnt(nbt);
         this.writeFlipped(nbt);
-        nbt.putIntArray("grillingTimes", this.grillingTimes);
-        nbt.putIntArray("grillingTimesTotal", this.grillingTimesTotal);
+        nbt.putIntArray(TAG_KEY_COOKING_TIMES, grillingTimes);
+        nbt.putIntArray(TAG_KEY_COOKING_TOTAL_TIMES, grillingTimesTotal);
     }
 
     @Override
@@ -263,29 +241,22 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
         super.readNbt(nbt);
         this.items.clear();
         Inventories.readNbt(nbt, items);
-        if(nbt.contains("Burnt", NbtElement.BYTE_ARRAY_TYPE)){
-            byte[] burnt = nbt.getByteArray("Burnt");
-            for(int i = 0; i < Math.min(this.burnt.length, burnt.length); i++) {
-                this.burnt[i] = burnt[i] == 1;
-            }
+
+        if (nbt.contains(TAG_KEY_COOKING_TIMES, 11)) {
+            int[] cookingTimeRead = nbt.getIntArray(TAG_KEY_COOKING_TIMES);
+            System.arraycopy(cookingTimeRead, 0, grillingTimes, 0, Math.min(grillingTimesTotal.length, cookingTimeRead.length));
+        }
+        if (nbt.contains(TAG_KEY_COOKING_TOTAL_TIMES, 11)) {
+            int[] cookingTotalTimeRead = nbt.getIntArray(TAG_KEY_COOKING_TOTAL_TIMES);
+            System.arraycopy(cookingTotalTimeRead, 0, grillingTimesTotal, 0, Math.min(grillingTimesTotal.length, cookingTotalTimeRead.length));
         }
 
-        if(nbt.contains("Flipped", NbtElement.BYTE_ARRAY_TYPE)){
+        if (nbt.contains("Flipped", NbtElement.BYTE_ARRAY_TYPE)) {
             byte[] flipped = nbt.getByteArray("Flipped");
-            for(int i = 0; i < Math.min(this.flipped.length, flipped.length); i++) {
+            for (int i = 0; i < Math.min(this.flipped.length, flipped.length); i++) {
                 this.flipped[i] = flipped[i] == 1;
             }
         }
-
-        if (nbt.contains("grillingTimes", NbtElement.INT_ARRAY_TYPE)) {
-            int[] arrayCookingTimes = nbt.getIntArray("grillingTimes");
-            System.arraycopy(arrayCookingTimes, 0, grillingTimes, 0, Math.min(grillingTimesTotal.length, arrayCookingTimes.length));
-        }
-        if (nbt.contains("grillingTimesTotal", NbtElement.INT_ARRAY_TYPE)) {
-            int[] arrayCookingTimesTotal = nbt.getIntArray("grillingTimesTotal");
-            System.arraycopy(arrayCookingTimesTotal, 0, grillingTimesTotal, 0, Math.min(grillingTimesTotal.length, arrayCookingTimesTotal.length));
-        }
-
     }
 
     private void writeFlipped(NbtCompound compound) {
@@ -294,13 +265,5 @@ public class GrillBlockEntity extends BlockEntity implements BlockEntityInv, Hea
             flipped[i] = (byte) (this.flipped[i] ? 1 : 0);
         }
         compound.putByteArray("Flipped", flipped);
-    }
-
-    private void writeBurnt(NbtCompound compound) {
-        byte[] burnt = new byte[this.burnt.length];
-        for(int i = 0; i < this.burnt.length; i++) {
-            burnt[i] = (byte) (this.burnt[i] ? 1 : 0);
-        }
-        compound.putByteArray("Burnt", burnt);
     }
 }

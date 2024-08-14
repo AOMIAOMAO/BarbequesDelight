@@ -26,12 +26,12 @@
   "item.barbequesdelight.beef_skewer": "익히지 않은 소고기 꼬치",
   "item.barbequesdelight.grilled_beef_skewer": "익힌 소고기 꼬치",
 
-  "item.barbequesdelight.chilli_powder.tooltip": "피해를 입히고 허기를 증가시킵니다.",
-  "item.barbequesdelight.pepper_powder.tooltip": "먹는 시간을 줄입니다.",
-  "item.barbequesdelight.cumin_powder.tooltip": "체력을 회복합니다.",
+  "item.barbequesdelight.chilli.tooltip": "피해를 입히고 허기를 증가시킵니다.",
+  "item.barbequesdelight.pepper.tooltip": "먹는 시간을 줄입니다.",
+  "item.barbequesdelight.cumin.tooltip": "체력을 회복합니다.",
   "item.barbequesdelight.skewers.tooltip": "양념: ",
 
-  "barbequesdelight.rei.barbecuing": "바베큐 중",
+  "barbequesdelight.rei.grilling": "바베큐 중",
   "barbequesdelight.rei.skewering": "꼬치 만드는 중",
 
   "block.barbequesdelight.grill": "바베큐 그릴",

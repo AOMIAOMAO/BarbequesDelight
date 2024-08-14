@@ -113,26 +113,23 @@ public class GrillBlock extends BlockWithEntity {
                 Optional<GrillingRecipe> optional = grill.findMatchingRecipe(stack);
                 Optional<CampfireCookingRecipe> campfireOptional = grill.findMatchingCampfireRecipe(stack);
 
-                if (!player.isSneaking()) {
-                    if (grillItems.isEmpty() && !stack.isEmpty() && (optional.isPresent() || campfireOptional.isPresent())) {
-                        ItemStack itemStack = stack.split(1);
-                        grill.setStack(i, itemStack);
+                if (!player.isSneaking()){
+                    if (!stack.isEmpty() && grillItems.isEmpty() && (optional.isPresent() || campfireOptional.isPresent())) {
+                        grill.setStack(i, stack.split(1));
 
                         optional.ifPresent(recipe -> grill.setBarbecuing(i, recipe.getGrillingtime()));
-                        campfireOptional.ifPresent(recipe -> grill.setBarbecuing(i, recipe.getCookTime() -20 *10));
+                        campfireOptional.ifPresent(recipe -> grill.setBarbecuing(i, recipe.getCookTime() - 20 * 10));
 
                         world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 0.7F, 1.0F);
                         return ActionResult.success(world.isClient());
-                    } else if (!grillItems.isEmpty() && stack.isEmpty()) {
+                    } else if (!grillItems.isEmpty()) {
                         player.getInventory().offerOrDrop(grillItems.split(1));
+                        grill.inventoryChanged();
                         return ActionResult.success(world.isClient());
                     }
-                    grill.inventoryChanged();
-                }
-
-                if (player.isSneaking() && grill.flip(i)) {
+                } else if (grill.flip(i)){
                     world.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, ModSounds.BLOCK_SKILLET_ADD_FOOD.get(), SoundCategory.BLOCKS, 0.8F, 1.0F);
-                    return ActionResult.success(world.isClient());
+                    return ActionResult.SUCCESS;
                 }
             }
         }

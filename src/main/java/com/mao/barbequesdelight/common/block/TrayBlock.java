@@ -40,27 +40,20 @@ public class TrayBlock extends BlockWithEntity {
         if (world.getBlockEntity(pos) instanceof TrayBlockEntity tray){
             if (!stack.isEmpty()){
                 for (int i = 0; i < tray.size(); ++i) {
-                    ItemStack stack1 = tray.getStack(i);
-                    if (stack1.isEmpty()){
+                    ItemStack itemStack = tray.getStack(i);
+                    if (itemStack.isEmpty()){
                         tray.setStack(i, stack.split(stack.getCount()));
                         return ActionResult.success(world.isClient());
                     }
-                    if (ItemStack.areItemsEqual(stack, stack1) && stack1.getCount() < stack1.getMaxCount()){
-                        stack1.setCount(stack1.getCount() + stack.split(1).getCount());
+                    if (ItemStack.areItemsEqual(stack, itemStack) && itemStack.getCount() < itemStack.getMaxCount()){
+                        itemStack.setCount(itemStack.getCount() + stack.split(1).getCount());
                         return ActionResult.success(world.isClient());
                     }
+                    tray.inventoryChanged();
                 }
-            }else {
-                for (int i = tray.size()-1; i >=0; i--) {
-                    ItemStack stack1 = tray.getStack(i);
-                    if (!stack1.isEmpty()){
-                        int count = player.isSneaking() ? stack1.getCount() : 1;
-                        player.getInventory().offerOrDrop(stack1.split(count));
-                        return ActionResult.success(world.isClient());
-                    }
-                }
+            }else if (tray.removeItems(player)){
+                return ActionResult.success(world.isClient());
             }
-            tray.inventoryChanged();
         }
         return ActionResult.PASS;
     }

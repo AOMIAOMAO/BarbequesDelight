@@ -4,6 +4,7 @@ import com.mao.barbequesdelight.registry.BBQDEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -32,6 +33,19 @@ public class TrayBlockEntity extends BlockEntity implements BlockEntityInv {
         final Vec2f[] offsets = {new Vec2f(0, yOffset + 0.1f), new Vec2f(0,yOffset-0.2f), new Vec2f(0, yOffset-0.5f)};
 
         return offsets[index];
+    }
+
+    public boolean removeItems(PlayerEntity player){
+        for (int i = size()-1; i >=0; i--) {
+            ItemStack stack1 = getStack(i);
+            if (!stack1.isEmpty()){
+                int count = player.isSneaking() ? stack1.getCount() : 1;
+                player.getInventory().offerOrDrop(stack1.split(count));
+                inventoryChanged();
+                return true;
+            }
+        }
+        return false;
     }
 
     public void inventoryChanged() {

@@ -6,6 +6,7 @@ import com.mao.barbequesdelight.common.block.blockentity.GrillBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.Accessor;
@@ -22,8 +23,8 @@ public class GrillBlockTipProvider implements IServerExtensionProvider<Object, I
     public List<ClientViewGroup<ItemView>> getClientGroups(Accessor<?> accessor, List<ViewGroup<ItemStack>> list) {
         return ClientViewGroup.map(list, (stack) -> {
             String text = null;
-            if (stack.getNbt() != null && stack.getNbt().contains("grilling")) {
-                text = IThemeHelper.get().seconds(stack.getNbt().getInt("grilling")).getString();
+            if (stack.getNbt() != null && stack.getNbt().contains("grilling") && stack.getNbt().contains("canFlip")) {
+                text = stack.getNbt().getBoolean("canFlip") ? Text.translatable("barbequesdelight.jade.canFlip").getString() : IThemeHelper.get().seconds(stack.getNbt().getInt("grilling")).getString();
             }
             return new ItemView(stack, text);
         }, null);
@@ -39,6 +40,7 @@ public class GrillBlockTipProvider implements IServerExtensionProvider<Object, I
                 if (!stack.isEmpty()) {
                     stack = stack.copy();
                     stack.getOrCreateNbt().putInt("grilling", grill.grillingTimes[i]);
+                    stack.getOrCreateNbt().putBoolean("canFlip", grill.canFlip(i));
                     list.add(stack);
                 }
             }

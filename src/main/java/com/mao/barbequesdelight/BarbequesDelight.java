@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 public class BarbequesDelight implements ModInitializer {
     public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, asID("main"));
-    public static final TagKey<Item> CAN_BE_SEASONED = TagKey.of(RegistryKeys.ITEM, asID("can_be_seasoned"));
     public static final String MODID = "barbequesdelight";
     public static final Logger LOGGER = LoggerFactory.getLogger(BarbequesDelight.class);
 

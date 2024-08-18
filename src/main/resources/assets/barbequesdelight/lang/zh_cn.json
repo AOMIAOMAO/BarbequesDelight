@@ -38,6 +38,10 @@
   "item.barbequesdelight.flavor.cumin": "芳香",
   "item.barbequesdelight.flavor.pepper": "胡椒",
 
+  "item.barbequesdelight.cumin.title": "孜然味 ",
+  "item.barbequesdelight.chilli.title": "辣椒味 ",
+  "item.barbequesdelight.pepper.title": "胡椒味 ",
+
   "barbequesdelight.rei.count": "所需数量: %s",
   "barbequesdelight.rei.grilling": "烧烤",
   "barbequesdelight.rei.skewering": "串串",

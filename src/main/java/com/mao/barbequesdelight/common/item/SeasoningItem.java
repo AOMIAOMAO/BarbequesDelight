@@ -49,7 +49,7 @@ public class SeasoningItem extends Item {
     public boolean canSprinkle(ItemStack storedStack) {
         if (storedStack.isEmpty())
             return false;
-        if (!(storedStack.isIn(BarbequesDelight.CAN_BE_SEASONED)))
+        if (!(storedStack.getItem() instanceof SkewerItem))
             return false;
         return storedStack.getNbt() == null || !storedStack.getNbt().contains("seasoning");
     }

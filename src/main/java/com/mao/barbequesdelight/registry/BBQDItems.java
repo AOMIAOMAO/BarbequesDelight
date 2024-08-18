@@ -2,6 +2,7 @@ package com.mao.barbequesdelight.registry;
 
 import com.mao.barbequesdelight.BarbequesDelight;
 import com.mao.barbequesdelight.common.item.SeasoningItem;
+import com.mao.barbequesdelight.common.item.SkewerItem;
 import com.mao.barbequesdelight.common.util.BBQDSeasoning;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.BlockItem;
@@ -56,7 +57,7 @@ public class BBQDItems {
     }
 
     private static Item grilledSkewerItem(FoodComponent food, boolean hasTooltip){
-        return new ConsumableItem(new Item.Settings().food(food).recipeRemainder(Items.STICK), hasTooltip);
+        return new SkewerItem(food, hasTooltip);
     }
 
     public static void registerBBQDItems(){

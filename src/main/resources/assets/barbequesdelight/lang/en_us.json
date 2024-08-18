@@ -38,6 +38,10 @@
   "item.barbequesdelight.flavor.cumin": "Aromatic",
   "item.barbequesdelight.flavor.pepper": "Peppery",
 
+  "item.barbequesdelight.cumin.title": "Cumin Flavored ",
+  "item.barbequesdelight.chilli.title": "Chilli Flavored ",
+  "item.barbequesdelight.pepper.title": "Pepper Flavored ",
+
   "barbequesdelight.emi.grilling": "%s s",
   "emi.category.barbequesdelight.grilling": "Grilling",
   "emi.category.barbequesdelight.skewering": "Skewering",

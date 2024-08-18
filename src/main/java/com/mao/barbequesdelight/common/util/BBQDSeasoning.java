@@ -2,8 +2,6 @@ package com.mao.barbequesdelight.common.util;
 
 import blue.endless.jankson.annotation.Nullable;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -48,23 +46,6 @@ public enum BBQDSeasoning {
 
         if (this == CUMIN) {
             entity.heal(2);
-        }
-
-        if (this == TOMATO_SAUCE){
-            entity.getStatusEffects().forEach(effect ->{
-                int newAmplifier = effect.getAmplifier() +1;
-                entity.setStatusEffect(new StatusEffectInstance(effect.getEffectType(), effect.getDuration(), newAmplifier), entity);
-            });
-        }
-
-        if (this == HONEY){
-            entity.getStatusEffects().forEach(effect ->{
-                int duration = effect.getDuration();
-                if (effect.getEffectType().getCategory().equals(StatusEffectCategory.HARMFUL)){
-                    int newDuration = duration - (25*20);
-                    entity.setStatusEffect(new StatusEffectInstance(effect.getEffectType(), newDuration, effect.getAmplifier()), entity);
-                }
-            });
         }
     }
 

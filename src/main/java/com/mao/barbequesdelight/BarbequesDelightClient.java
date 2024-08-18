@@ -5,7 +5,6 @@ import com.mao.barbequesdelight.common.block.client.IngredientsBasinRenderer;
 import com.mao.barbequesdelight.common.block.client.TrayRenderer;
 import com.mao.barbequesdelight.registry.BBQDBlocks;
 import com.mao.barbequesdelight.registry.BBQDEntityTypes;
-import com.mao.barbequesdelight.registry.BBQDEvents;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -22,8 +21,6 @@ public class BarbequesDelightClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(BBQDEntityTypes.GRILL, GrillRenderer::new);
         BlockEntityRendererFactories.register(BBQDEntityTypes.INGREDIENTS_BASIN, IngredientsBasinRenderer::new);
         BlockEntityRendererFactories.register(BBQDEntityTypes.TRAY, TrayRenderer::new);
-        //Event
-        BBQDEvents.registerBBQDClientEvents();
         //Item
     }
 }

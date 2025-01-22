@@ -1,6 +1,5 @@
 package com.mao.barbequesdelight.common.item;
 
-import com.mao.barbequesdelight.BarbequesDelight;
 import com.mao.barbequesdelight.common.util.BBQDSeasoning;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -49,7 +48,7 @@ public class SeasoningItem extends Item {
     public boolean canSprinkle(ItemStack storedStack) {
         if (storedStack.isEmpty())
             return false;
-        if (!(storedStack.getItem() instanceof SkewerItem))
+        if (!(storedStack.getItem() instanceof SimpleSkewerItem))
             return false;
         return storedStack.getNbt() == null || !storedStack.getNbt().contains("seasoning");
     }

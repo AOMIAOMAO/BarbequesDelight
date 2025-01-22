@@ -2,7 +2,7 @@ package com.mao.barbequesdelight.registry;
 
 import com.mao.barbequesdelight.BarbequesDelight;
 import com.mao.barbequesdelight.common.item.SeasoningItem;
-import com.mao.barbequesdelight.common.item.SkewerItem;
+import com.mao.barbequesdelight.common.item.SimpleSkewerItem;
 import com.mao.barbequesdelight.common.util.BBQDSeasoning;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.BlockItem;
@@ -20,6 +20,10 @@ public class BBQDItems {
     public static final Item CUMIN_POWDER = register("cumin_powder", new SeasoningItem(BBQDSeasoning.CUMIN));
     public static final Item PEPPER_POWDER = register("pepper_powder", new SeasoningItem(BBQDSeasoning.PEPPER));
     public static final Item CHILLI_POWDER = register("chilli_powder", new SeasoningItem(BBQDSeasoning.CHILLI));
+
+    public static final Item HONEY_MUSTARD_SAUCE = register("honey_mustard_sauce", new SeasoningItem(BBQDSeasoning.HONEY_MUSTARD));
+    public static final Item BUFFALO_SAUCE = register("buffalo_sauce", new SeasoningItem(BBQDSeasoning.BUFFALO));
+    public static final Item BARBECUE_SAUCE = register("barbecue_sauce", new SeasoningItem(BBQDSeasoning.BARBECUE));
 
     public static final Item KEBAB_WRAP = register("kebab_wrap", new ConsumableItem(new Item.Settings().food(BBQDFoods.SKEWER_WRAP), true));
     public static final Item KEBAB_SANDWICH = register("kebab_sandwich", new Item(new Item.Settings().food(BBQDFoods.SKEWER_SANDWICH)));
@@ -57,7 +61,7 @@ public class BBQDItems {
     }
 
     private static Item grilledSkewerItem(FoodComponent food, boolean hasTooltip){
-        return new SkewerItem(food, hasTooltip);
+        return new SimpleSkewerItem(food, hasTooltip);
     }
 
     public static void registerBBQDItems(){

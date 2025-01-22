@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north,support=false": {
-      "model": "barbequesdelight:block/tray"
+      "model": "farmersdelight:block/rice_roll_medley_block_leftover"
     },
     "facing=south,support=false": {
-      "model": "barbequesdelight:block/tray",
+      "model": "barbequesdelight:block/rice_roll_medley_block_leftover",
       "y": 180
     },
     "facing=west,support=false": {
-      "model": "barbequesdelight:block/tray",
+      "model": "barbequesdelight:block/rice_roll_medley_block_leftover",
       "y": 270
     },
     "facing=east,support=false": {
-      "model": "barbequesdelight:block/tray",
+      "model": "barbequesdelight:block/rice_roll_medley_block_leftover",
       "y": 90
     },
     "facing=north,support=true": {

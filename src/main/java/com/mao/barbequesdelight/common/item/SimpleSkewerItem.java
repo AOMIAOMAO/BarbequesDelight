@@ -15,8 +15,8 @@ import vectorwing.farmersdelight.common.item.ConsumableItem;
 
 import java.util.List;
 
-public class SkewerItem extends ConsumableItem {
-    public SkewerItem(FoodComponent foodComponent, boolean hasTooltip) {
+public class SimpleSkewerItem extends ConsumableItem {
+    public SimpleSkewerItem(FoodComponent foodComponent, boolean hasTooltip) {
         super(new Settings().food(foodComponent).recipeRemainder(Items.STICK), hasTooltip);
     }
 
@@ -31,7 +31,7 @@ public class SkewerItem extends ConsumableItem {
     public void affectConsumer(ItemStack stack, World world, LivingEntity le) {
         super.affectConsumer(stack, world, le);
         BBQDSeasoning seasoning = BBQDSeasoning.matching(stack);
-        if (seasoning != null) seasoning.other(le);
+        if (seasoning != null) seasoning.onFinish(le);
     }
 
     @Override

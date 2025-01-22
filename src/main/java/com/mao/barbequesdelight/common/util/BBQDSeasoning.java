@@ -2,7 +2,10 @@ package com.mao.barbequesdelight.common.util;
 
 import blue.endless.jankson.annotation.Nullable;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Formatting;
@@ -12,9 +15,10 @@ import java.util.Locale;
 public enum BBQDSeasoning {
     CUMIN(Formatting.YELLOW),
     PEPPER(Formatting.GRAY),
-    CHILLI(Formatting.RED),
-    TOMATO_SAUCE(Formatting.RED),
-    HONEY(Formatting.YELLOW);
+    CHILLI(Formatting.DARK_RED),
+    BUFFALO(Formatting.RED),
+    HONEY_MUSTARD(Formatting.YELLOW),
+    BARBECUE(Formatting.GOLD);
 
     public final Formatting color;
     public final String name;
@@ -36,16 +40,22 @@ public enum BBQDSeasoning {
         return (this == PEPPER) ? (time / 2) : time;
     }
 
-    public void other(LivingEntity entity) {
+    public void onFinish(LivingEntity le) {
         if (this == CHILLI) {
-            entity.damage(entity.getDamageSources().inFire(), 1);
-            if (entity instanceof PlayerEntity player){
-                player.getHungerManager().add(2, 0.1f);
-            }
+            le.damage(le.getDamageSources().inFire(), 2);
+            if (le instanceof PlayerEntity player)player.getHungerManager().add(2, 0.5f);
         }
 
-        if (this == CUMIN) {
-            entity.heal(2);
+        if (this == CUMIN) le.heal(2);
+
+        if (this == BUFFALO){
+            le.getStatusEffects().forEach(effect -> {
+                int d = effect.getDuration();
+                int a = effect.getAmplifier();
+                StatusEffect e = effect.getEffectType();
+                le.getStatusEffects().clear();
+                le.addStatusEffect(new StatusEffectInstance(e, d/2, a + 1));
+            });
         }
     }
 
